@@ -1,0 +1,20 @@
+{
+  "name": "greenfield-apollo",
+  "version": "0.0.1",
+  "homepage": "https://github.com/greenfield-apollo/greenfield-apollo",
+  "description": "Habit Trainer Application",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "client/lib",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.4.6",
+    "angular-route": "~1.4.6",
+    "bootstrap": "~3.3.5"
+  }
+}
