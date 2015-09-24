@@ -1,0 +1,13 @@
+{
+  "manifest_version": 2,
+
+  "name": "Habit Trainer",
+  "description": "This extension helps you track your habits and improve yourself",
+  "version": "0",
+
+  "browser_action": {
+    "default_icon": "LetterH.png",
+    "default_popup": "popup.html",
+    "default_title": "Habit Trainer"
+  }
+}
