@@ -5,7 +5,7 @@
     <title>Habit Trainer</title>
     <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.min.css">
   </head>
-  <body>
+  <body ng-app="app">
     <nav class="navbar navbar-default">
       <div class="container-fluid">
         <div class="navbar-header">
@@ -30,6 +30,7 @@
     </nav>
     <div ng-view></div>
     <script src="lib/angular/angular.js"></script>
+    <script src="lib/angular-route/angular-route.js"></script>
     <script src="app/services/services.js"></script>
     <script src="app/create/create.js"></script>
     <script src="app/dashboard/dashboard.js"></script>

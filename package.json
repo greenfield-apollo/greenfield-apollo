@@ -25,7 +25,6 @@
   },
   "devDependencies": {
     "chai": "^3.3.0",
-<<<<<<< HEAD
     "grunt": "^0.4.5",
     "grunt-contrib-concat": "^0.5.1",
     "grunt-contrib-jshint": "^0.11.3",
@@ -33,7 +32,6 @@
     "grunt-contrib-watch": "^0.6.1",
     "grunt-mocha-test": "^0.12.7",
     "grunt-nodemon": "^0.4.0",
-=======
     "expect.js": "^0.3.1",
     "jasmine-core": "^2.3.4",
     "karma": "^0.13.10",
@@ -41,7 +39,6 @@
     "karma-expect": "^1.1.0",
     "karma-jasmine": "^0.3.6",
     "karma-mocha": "^0.2.0",
->>>>>>> implement client-side routing
     "mocha": "^2.3.3",
     "supertest": "^1.1.0"
   }
