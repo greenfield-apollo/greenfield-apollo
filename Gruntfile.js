@@ -20,9 +20,7 @@ module.exports = function(grunt) {
 
     karma: {
       unit: {
-        options: {
-          files: ['test/client/*.js']
-        }
+        configFile: 'karma.conf.js'
       }
     },
 
@@ -121,7 +119,8 @@ module.exports = function(grunt) {
 
   grunt.registerTask('test', [
     'jshint',
-    'mochaTest'
+    'mochaTest',
+    'karma'
   ]);
 
   grunt.registerTask('build', [
