@@ -4,7 +4,7 @@
   "description": "Habit Trainer Application",
   "main": "index.js",
   "scripts": {
-    "postinstall": "grunt build",
+    "postinstall": "bower install && grunt build",
     "test": "mocha test && karma start",
     "start": "node index.js"
   },
