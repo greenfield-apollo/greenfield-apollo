@@ -57,13 +57,13 @@ module.exports = function(grunt) {
       }
     },
 
-    // cssmin: {
-    //   dist: {
-    //     files: {
-    //       'public/dist/style.min.css': 'public/style.css'
-    //     }
-    //   }
-    // },
+    cssmin: {
+      dist: {
+        files: {
+          'client/dist/style.min.css': 'client/styles/style.css'
+        }
+      }
+    },
 
     watch: {
       scripts: {
@@ -74,11 +74,11 @@ module.exports = function(grunt) {
           'concat',
           'uglify'
         ]
+      },
+      css: {
+        files: 'client/styles/*.css',
+        tasks: ['cssmin']
       }
-      // css: {
-      //   files: 'client/*.css',
-      //   tasks: ['cssmin']
-      // }
     },
 
     shell: {
@@ -94,7 +94,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-concat');
-  // grunt.loadNpmTasks('grunt-contrib-cssmin');
+  grunt.loadNpmTasks('grunt-contrib-cssmin');
   grunt.loadNpmTasks('grunt-mocha-test');
   grunt.loadNpmTasks('grunt-karma');
   grunt.loadNpmTasks('grunt-shell');
@@ -125,8 +125,8 @@ module.exports = function(grunt) {
 
   grunt.registerTask('build', [
     'concat',
-    'uglify'
-    // 'cssmin'
+    'uglify',
+    'cssmin'
   ]);
 
   grunt.registerTask('upload', function(n) {
