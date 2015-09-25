@@ -1,5 +1,5 @@
 var expect = require('chai').expect;
-var app = require('../server/server.js');
+var app = require('../server/server');
 var request = require('supertest');
 
 var User = require('../server/models/user');

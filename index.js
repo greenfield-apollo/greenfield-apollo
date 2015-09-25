@@ -1,5 +1,5 @@
-var app = require('./server/server.js');
+var app = require('./server/server');
 
 // start app ===============================================
-app.listen(app.port);
-console.log('Habit Trainer listening on port ' + app.port);
+app.listen(app.get('port'));
+console.log('Habit Trainer listening on port ' + app.get('port'));
