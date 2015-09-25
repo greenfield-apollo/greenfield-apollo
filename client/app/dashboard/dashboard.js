@@ -1,6 +1,6 @@
 angular.module('app.dashboard', [])
 
-.controller('DashboardController', function($scope, Habits) {
+.controller('DashboardController', ['$scope', 'Habits', function($scope, Habits) {
 
   $scope.data = {};
 
@@ -13,4 +13,4 @@ angular.module('app.dashboard', [])
         console.error(error);
       });
   };
-});
+}]);

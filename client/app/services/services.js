@@ -1,6 +1,6 @@
 angular.module('app.services', [])
 
-.factory('Habits', function($http) {
+.factory('Habits', ['$http', function($http) {
 
   var getAll = function(username) {
     return $http({
@@ -12,4 +12,4 @@ angular.module('app.services', [])
     });
   };
 
-});
+}]);
