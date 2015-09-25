@@ -14,7 +14,15 @@ module.exports = function(grunt) {
         options: {
           reporter: 'spec'
         },
-        src: ['test/**/*.js']
+        src: ['test/*.js']
+      }
+    },
+
+    karma: {
+      unit: {
+        options: {
+          files: ['test/client/*.js']
+        }
       }
     },
 
@@ -73,43 +81,24 @@ module.exports = function(grunt) {
       //   files: 'client/*.css',
       //   tasks: ['cssmin']
       // }
-    }
+    },
 
-    // shell: {
-    //   'git-add': {
-    //     command: 'git --no-pager add .',
-    //     options: {
-    //       stdout: true,
-    //       stderr: true,
-    //       // execOptions: { cwd: '../deploy'}
-    //     }
-    //   },
-    //   'git-commit':           {
-    //     command: 'git --no-pager commit -m "update"',
-    //     options: {
-    //       stdout: true,
-    //       stderr: true,
-    //       // execOptions: { cwd: '../deploy'}
-    //     }
-    //   },
-    //   'git-push':             {
-    //     command: 'git --no-pager push heroku master',
-    //     options: {
-    //       failOnError: true,
-    //       stdout: true,
-    //       stderr: true,
-    //       // execOptions: { cwd: '../deploy'}
-    //     }
-    //   }
-    // }
+    shell: {
+      prodServer: {
+        command: [
+          'git push heroku master'
+        ].join('&&')
+      }
+    },
   });
 
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-jshint');
-  // grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-concat');
   // grunt.loadNpmTasks('grunt-contrib-cssmin');
   grunt.loadNpmTasks('grunt-mocha-test');
+  grunt.loadNpmTasks('grunt-karma');
   grunt.loadNpmTasks('grunt-shell');
   grunt.loadNpmTasks('grunt-nodemon');
 
@@ -141,29 +130,18 @@ module.exports = function(grunt) {
     // 'cssmin'
   ]);
 
-  // grunt.registerTask('server-prod', [
-  //   'shell'
-  // ]);
-
-  // grunt.registerTask('upload', function(n) {
-  //   if (grunt.option('prod')) {
-  //     grunt.task.run([ 'server-prod' ]);
-  //   } else {
-  //     console.log('local server');
-  //     grunt.task.run([ 'server-dev' ]);
-  //   }
-  // });
-
-  // grunt.registerTask('deploy', function(){
-  //   grunt.task.run([ 'test', 'build', 'upload' ]);
-  // });
-
-  grunt.registerTask('heroku:production', function(){
-    grunt.task.run([ 'build' ]);
+  grunt.registerTask('upload', function(n) {
+    if (grunt.option('prod')) {
+      grunt.task.run([ 'shell' ]);
+    } else {
+      grunt.task.run([ 'server-dev' ]);
+    }
   });
 
-  grunt.registerTask('heroku:development', function(){
-    grunt.task.run([ 'build' ]);
-  });
+   grunt.registerTask('deploy', [
+    'test',
+    'build',
+    'upload'
+  ]);
 
 };
