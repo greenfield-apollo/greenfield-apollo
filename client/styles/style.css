@@ -1,0 +1,16 @@
+.create table {
+  width: 100%;
+  max-width: 700px;
+}
+
+.create input {
+  border: 1px solid #ccc;
+  color: #888;
+  margin: 0.5em;
+  vertical-align: middle;
+  outline: 0;
+  padding: 0.5em 1em;
+  border-radius: 4px;
+  width: calc(100% - 3em - 2px);
+  font-family: sans-serif;
+}

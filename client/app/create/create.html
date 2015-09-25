@@ -1,0 +1,41 @@
+<div class="container">
+  <div class="create">
+    <form name="habitForm" ng-submit="addHabit()">
+      <table>
+        <tr>
+          <td>
+            <label>
+              Daily habit:
+            </label>
+          </td>
+          <td>
+            <input type="text" placeholder="Enter habit name" required ng-model="name"/>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label>
+              Remind me at:
+            </label>
+          </td>
+          <td>
+            <input type="time" placeholder="HH:mm" required ng-model="reminder"/>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label>
+              Due at:
+            </label>
+          </td>
+          <td>
+            <input type="time" placeholder="HH:mm" required ng-model="due"/>
+          </td>
+        </tr>
+      </table>
+      <button type="submit">
+        Add reminder
+      </button>
+    </form>
+  </div>
+</div>
