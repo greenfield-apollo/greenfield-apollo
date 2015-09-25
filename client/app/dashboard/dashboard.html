@@ -1,15 +1,17 @@
-<div class="habits">
-  <div class="habit" ng-repeat="habit in data.habits">
-    <div class="info">
-      <span class="name">
-        {{ habit.name }}
-      </span>
-      <span class="schedule">
-        {{ habit.schedule }}
-      </span>
-      <span class="streak">
-        {{ habit.streak }}
-      </span>
+<div class="container">
+  <div class="habits">
+    <div class="habit" ng-repeat="habit in data.habits">
+      <div class="info">
+        <span class="name">
+          {{ habit.name }}
+        </span>
+        <span class="schedule">
+          {{ habit.schedule }}
+        </span>
+        <span class="streak">
+          {{ habit.streak }}
+        </span>
+      </div>
     </div>
   </div>
 </div>
