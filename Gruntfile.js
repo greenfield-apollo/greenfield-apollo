@@ -84,7 +84,7 @@ module.exports = function(grunt) {
     shell: {
       prodServer: {
         command: [
-          'git push heroku master'
+          'git push heroku staging:master'
         ].join('&&')
       }
     },
