@@ -6,19 +6,21 @@ var morgan = require('morgan');
 var mongoose = require('mongoose');
 
 // configuration ===========================================
-app.port = process.env.PORT || 8080;
+var config = require('./config/config');
+app.set('port', process.env.PORT || config.port);
 
-mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://127.0.0.1:27017/habitdb',
+mongoose.connect(process.env.MONGOLAB_URI || config.localdb,
   function(err) {
     if (err) throw err;
   });
 var User = require('./models/user');
 
 app.use(morgan('dev'));
+app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use(express.static(__dirname + '/../client'));
 
 // routes ==================================================
-require('./middlewares/router')(app);
+require('./middlewares/router')(app, express);
 
 module.exports = app;
