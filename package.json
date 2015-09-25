@@ -26,6 +26,7 @@
   },
   "devDependencies": {
     "angular-mocks": "^1.4.6",
+    "bower": "^1.5.3",
     "chai": "^3.3.0",
     "expect.js": "^0.3.1",
     "grunt": "^0.4.5",
