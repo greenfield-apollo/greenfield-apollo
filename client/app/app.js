@@ -40,7 +40,7 @@ angular.module('app', [
     request: function (object) {
       var jwt = $window.localStorage.getItem('com.habit');
       if (jwt) {
-        object.headers['x-access-token'] = jwt;
+        object.headers.Authorization = 'Bearer ' + jwt;
       }
       object.headers['Allow-Control-Allow-Origin'] = '*';
       return object;
