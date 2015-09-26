@@ -8,5 +8,11 @@ module.exports = {
     return jwt.sign(username, config.secret, {
       expiresInMinutes: 60 * 24
     });
+  },
+
+  authErrHandler: function (err, req, res, next) {
+    if (err.name === 'UnauthorizedError') {
+      res.status(401).send('Invalid token.');
+    }
   }
 };
