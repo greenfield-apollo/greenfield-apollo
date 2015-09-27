@@ -44,7 +44,7 @@ describe('AuthController', function () {
     var token = 'sjj232hwjhr3urw90rof';
 
     // make a 'fake' request to the server, not really going to our server
-    $httpBackend.expectPOST('/api/users/signup').respond({token: token});
+    $httpBackend.expectPOST('/authenticate/signup').respond({token: token});
     $scope.signup();
     $httpBackend.flush();
     expect($window.localStorage.getItem('com.habit')).to.be(token);
@@ -57,7 +57,7 @@ describe('AuthController', function () {
   it('should store token in localStorage after signin', function() {
     // create a fake JWT for auth
     var token = 'sjj232hwjhr3urw90rof';
-    $httpBackend.expectPOST('/api/users/signin').respond({token: token});
+    $httpBackend.expectPOST('/authenticate/signin').respond({token: token});
     $scope.signin();
     $httpBackend.flush();
     expect($window.localStorage.getItem('com.habit')).to.be(token);

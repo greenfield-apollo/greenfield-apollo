@@ -11,22 +11,24 @@ angular.module('app', [
     .when('/signin', {
       templateUrl: 'app/auth/signin.html',
       controller: 'AuthController',
-      authenticate: 'false'
     })
     .when('/signup', {
       templateUrl: 'app/auth/signup.html',
       controller: 'AuthController',
-      authenticate: 'false'
+    })
+    .when('/signout', {
+      template: '',
+      controller: 'AuthController',
     })
     .when('/dashboard', {
       templateUrl: 'app/dashboard/dashboard.html',
       controller: 'DashboardController',
-      authenticate: 'true'
+      authenticate: true
     })
     .when('/create', {
       templateUrl: 'app/create/create.html',
       controller: 'CreateController',
-      authenticate: 'true'
+      authenticate: true
     })
     .otherwise({
       redirectTo: '/dashboard'
@@ -48,6 +50,8 @@ angular.module('app', [
   };
   return attach;
 }])
+
+
 
 .run(['$rootScope', '$location', 'Auth', function ($rootScope, $location, Auth) {
   $rootScope.$on('$routeChangeStart', function (event, next, current) {
