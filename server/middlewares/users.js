@@ -2,8 +2,8 @@
 var userController = require('../controllers/users');
 
 module.exports = function (router) {
-  // POST: /api/users/add
-  router.post('/add', userController.addHabit);
+  // POST: /api/users/habits
+  router.post('/habits', userController.addHabit);
 
   // FOR TESTING ONLY
   // GET: /api/users/

@@ -4,55 +4,63 @@ var User = require('../models/user');
 var utils = require('../middlewares/utils');
 
 module.exports = {
-  signin: function(req, res) {
+  signin: function(req, res, next) {
     User.findOne({
       username: req.body.username
     }, function(err, user) {
-      if (err) throw err;
+      if (err) return next(err);
 
       if (!user) {
-        res.json({success: false, message: 'User not found.'});
+        return next(utils.err('User not found.'));
       } else if (user.password !== req.body.password) {
-        res.json({suceess: false, message: 'Wrong password.'});
+        return next(utils.err('Wrong password.'));
       } else {
         var token = utils.issueToken(req.body.username);
 
         res.json({
-          success: true,
           message: 'Token issued.',
           token: token
         });
+
+        next();
       }
     });
   },
 
-  signup: function(req, res) {
-    User.findOne({
-      username: req.body.username
-    }, function(err, user) {
-      if (err) throw err;
+  signup: function(req, res, next) {
+    var userData = {
+      username: req.body.username,
+      password: req.body.password
+    }
+    if (!utils.checkProperty(userData, next)) {
+      return;
+    } else {
+      User.findOne({
+        username: req.body.username
+      }, function(err, user) {
+        if (err) return next(err);
 
-      if (user) {
-        res.json({success: false, message: 'Username already taken.'});
-      } else {
-        var newUser = new User({
-          username: req.body.username,
-          password: req.body.password
-        });
+        if (user) {
+          return next(utils.err('Username already taken.'));
+        } else {
+          var newUser = new User(userData);
 
-        newUser.save(function(err) {
-          if (err) throw err;
-          console.log('New user ' + req.body.username + ' created.');
+          newUser.save(function(err) {
+            if (err) return next(err);
 
-          var token = utils.issueToken(req.body.username);
+            console.log('New user ' + req.body.username + ' created.');
 
-          res.json({
-            success: true,
-            message: 'New user registered.',
-            token: token
+            var token = utils.issueToken(req.body.username);
+
+            res.json({
+              message: 'New user registered.',
+              token: token
+            });
+
+            next();
           });
-        });
-      }
-    });
+        }
+      });
+    }
   }
 };
