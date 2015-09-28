@@ -27,6 +27,7 @@
     "express-error-handler": "^1.0.1",
     "express-jwt": "^3.1.0",
     "jsonwebtoken": "^5.0.5",
+    "moment": "^2.10.6",
     "mongoose": "^4.1.8",
     "morgan": "^1.6.1"
   },
