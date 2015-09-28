@@ -1,37 +1,31 @@
 // modules =================================================
+var utils = require('../middlewares/utils');
 var User = require('../models/user');
 
 module.exports = {
-  addHabit: function(req, res) {
+  addHabit: function(req, res, next) {
     User.findOne({username: req.user}, function(err, user) {
-      if (err) throw err;
+      if (err) return next(err);
 
-      var habit = {};
+      habits = {
+        habitName: req.body.habitName,
+        reminderTime: req.body.reminderTime,
+        dueTime: req.body.dueTime
+      };
 
-      if (req.body.habitName) {
-        habit.habitName = req.body.habitName;
-      }
-
-      if (req.body.reminderTime) {
-        habit.reminderTime = new Date(req.body.reminderTime);
-      }
-
-      if (req.body.dueTime) {
-        habit.dueTime = new Date(req.body.dueTime);
-      }
-
-      user.habits.push(habit);
-
-      user.save(function(err) {
-        if (err) {
-          // mongoose does not handle MongoDB validation errors
-          res.json({success: false, message: 'Error adding habit.'});
-        }
-
-        console.log('New habit added to user.');
-        res.json({success: true, message: 'Habit added.'});
+      if (!utils.checkProperty(habits, next)) {
         return;
-      });
+      } else {
+        user.habits = habits;
+
+        user.save(function(err) {
+          if (err) return next(err);
+
+          console.log('New habit added to user.');
+          res.json({message: 'Habit added.'});
+          next();
+        });
+      }
     });
   }
 };

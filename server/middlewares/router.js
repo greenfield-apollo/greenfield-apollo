@@ -7,10 +7,9 @@ var utils = require('./utils');
 module.exports = function(app, express) {
   // API routes ====================================================
   // status code 401 if unauthorized
-  // pass token in req.headers.authorizaion as 'Bearer [token]'
+  // pass token in req.headers.Authorizaion as 'Bearer [token]'
   var usersRouter = express.Router();
-  app.use('/api/users', expressJwt({secret: config.secret}),
-    utils.authErrHandler, usersRouter);
+  app.use('/api/users', expressJwt({secret: config.secret}), usersRouter);
   require('./users')(usersRouter);
 
   // authentication routes =========================================
