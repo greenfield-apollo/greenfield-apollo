@@ -2,12 +2,11 @@
 var userController = require('../controllers/users');
 
 module.exports = function (router) {
-  // POST: /api/users/habits
-  router.post('/habits', userController.addHabit);
+  // GET: /api/users/habits
+  // updates habit streak counts and responds with an array of habit data
+  router.get('/habits', userController.update, userController.showHabits);
 
-  // FOR TESTING ONLY
-  // GET: /api/users/
-  router.get('/', function(req, res) {
-    res.json({message: 'Authentication successful.'});
-  });
+  // POST: /api/users/habits
+  // adds a new habit entry to the user data
+  router.post('/habits', userController.addHabit);
 };
