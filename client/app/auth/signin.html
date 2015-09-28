@@ -8,6 +8,11 @@
     <input class="form-control" type="password" ng-model='user.password' placeholder="Password" required>
     <br>
     <input class="btn btn-default" type="submit" value="Login">
+    <!-- Temporary alert padding -->
+    &nbsp;&nbsp;
+    <span ng-if="alert" class="alert alert-danger">
+      <strong>Invalid login:</strong> {{alert}}
+    </span>
   </form>
   <a href="#/signup">Don't have an account? <strong>Signup</strong> ...</a>
 </div>

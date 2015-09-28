@@ -12,7 +12,7 @@ angular.module('app.auth', [])
           $location.path('/dashboard');
         })
         .catch(function (error) {
-          console.error(error);
+          $scope.alert = error.data.message;
         });
     };
 
@@ -23,7 +23,7 @@ angular.module('app.auth', [])
           $location.path('/dashboard');
         })
         .catch(function (error) {
-          console.error(error);
+          $scope.alert = error.data.message;
         });
     };
 
