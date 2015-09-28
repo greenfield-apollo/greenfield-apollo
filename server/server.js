@@ -14,8 +14,12 @@ app.set('port', process.env.PORT || config.port);
 
 mongoose.connect(process.env.MONGOLAB_URI || config.localdb,
   function(err) {
-    if (err) throw err;
+    if (err) {
+      console.error('Error connecting to MongoDB: ', process.env.MONGOLAB_URI || config.localdb);
+      throw err;
+    }
   });
+
 var User = require('./models/user');
 
 // middlewares =============================================
