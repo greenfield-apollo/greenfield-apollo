@@ -21,8 +21,6 @@ module.exports = {
           message: 'Token issued.',
           token: token
         });
-
-        next();
       }
     });
   },
@@ -56,8 +54,6 @@ module.exports = {
               message: 'New user registered.',
               token: token
             });
-
-            next();
           });
         }
       });
