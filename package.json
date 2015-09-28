@@ -8,7 +8,7 @@
   "main": "index.js",
   "scripts": {
     "postinstall": "bower install && grunt build",
-    "test": "mocha test && karma start",
+    "test": "mocha test && ./node_modules/.bin/karma start --single-run --browsers PhantomJS",
     "start": "node index.js"
   },
   "repository": {
@@ -54,7 +54,9 @@
     "karma-firefox-launcher": "^0.1.6",
     "karma-jasmine": "^0.3.6",
     "karma-mocha": "^0.2.0",
+    "karma-phantomjs-launcher": "^0.2.1",
     "mocha": "^2.3.3",
+    "phantomjs": "^1.9.18",
     "supertest": "^1.1.0"
   }
 }
