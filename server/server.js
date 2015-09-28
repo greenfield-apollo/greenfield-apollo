@@ -1,7 +1,10 @@
 // modules =================================================
+var http = require('http');
 var express = require('express');
 var app = express();
+var server = http.createServer(app);
 var bodyParser = require('body-parser');
+var errorHandler = require('express-error-handler');
 var morgan = require('morgan');
 var mongoose = require('mongoose');
 
@@ -15,6 +18,7 @@ mongoose.connect(process.env.MONGOLAB_URI || config.localdb,
   });
 var User = require('./models/user');
 
+// middlewares =============================================
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
@@ -22,5 +26,7 @@ app.use(express.static(__dirname + '/../client'));
 
 // routes ==================================================
 require('./middlewares/router')(app, express);
+
+app.use(errorHandler({server: server}));
 
 module.exports = app;

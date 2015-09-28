@@ -1,16 +1,18 @@
 angular.module('app.dashboard', [])
 
-.controller('DashboardController', ['$scope', 'Habits', function($scope, Habits) {
+.controller('DashboardController', ['$rootScope', '$scope', 'Habits',
+  function($rootScope, $scope, Habits) {
+    $rootScope.showNav = true;
+    $scope.data = {};
 
-  $scope.data = {};
-
-  $scope.getHabits = function(username) {
-    Habits.getAll(username)
-      .then(function(data) {
-        $scope.data = data;
-      })
-      .catch(function(error) {
-        console.error(error);
-      });
-  };
-}]);
+    $scope.getHabits = function(username) {
+      Habits.getAll(username)
+        .then(function(data) {
+          $scope.data = data;
+        })
+        .catch(function(error) {
+          console.error(error);
+        });
+    };
+  }
+]);
