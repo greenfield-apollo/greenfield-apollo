@@ -1,13 +1,18 @@
 <div class="container">
   <h3>Sign up</h3>
-  <form class="form-group">
+  <form class="form-group" ng-submit='signup()'>
     <label>Username</label>
-    <input class="form-control" type="text" placeholder="Username" required>
+    <input class="form-control" type="text" ng-model='user.username' placeholder="Username" required>
     <br>
     <label>Password</label>
-    <input class="form-control" type="text" placeholder="Password" required>
+    <input class="form-control" type="password" ng-model='user.password' placeholder="Password" required>
     <br>
     <input class="btn btn-default" type="submit" value="Login">
+    <!-- Temporary alert padding -->
+    &nbsp;&nbsp;
+    <span ng-if="alert" class="alert alert-danger">
+      <strong>Error:</strong> {{alert}}
+    </span>
   </form>
   <a href="#/signin">Already have an account? <strong>Signin</strong> ...</a>
 </div>

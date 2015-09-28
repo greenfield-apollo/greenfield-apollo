@@ -7,7 +7,7 @@
     <link rel="stylesheet" type="text/css" href="dist/style.min.css">
   </head>
   <body ng-app="app">
-    <nav class="navbar navbar-default">
+    <nav ng-if="showNav" class="navbar navbar-default">
       <div class="container-fluid">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
@@ -24,7 +24,7 @@
             <li><a href="#/create">Create Habit</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="#/logout">Logout</a></li>
+            <li><a href="#/signout">Logout</a></li>
           </ul>
         </div>
       </div>
@@ -36,6 +36,7 @@
     <script src="app/services/services.js"></script>
     <script src="app/create/create.js"></script>
     <script src="app/dashboard/dashboard.js"></script>
+    <script src="app/auth/auth.js"></script>
     <script src="app/app.js"></script>
 -->
     <script src="dist/habit-trainer.min.js"></script>
