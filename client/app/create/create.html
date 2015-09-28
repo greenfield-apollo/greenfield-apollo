@@ -9,7 +9,7 @@
             </label>
           </td>
           <td>
-            <input type="text" placeholder="Enter habit name" required ng-model="name"/>
+            <input type="text" placeholder="Enter habit name" required ng-model="habit.habitName"/>
           </td>
         </tr>
         <tr>
@@ -19,7 +19,7 @@
             </label>
           </td>
           <td>
-            <input type="time" placeholder="HH:mm" required ng-model="reminder"/>
+            <input type="time" required ng-model="habit.reminderTime"/>
           </td>
         </tr>
         <tr>
@@ -29,12 +29,12 @@
             </label>
           </td>
           <td>
-            <input type="time" placeholder="HH:mm" required ng-model="due"/>
+            <input type="time" required ng-model="habit.dueTime"/>
           </td>
         </tr>
       </table>
       <button type="submit">
-        Add reminder
+        Add habit
       </button>
     </form>
   </div>
