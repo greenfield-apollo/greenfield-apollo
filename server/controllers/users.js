@@ -94,7 +94,6 @@ module.exports = {
         // reset habit streak if last check-in time is more than 48 hours
         // before the due time today
         if (habit.lastCheckin && !utils.recentlyCheckedIn(habit, 2)) {
-          habit.streakRecord = Math.max(habit.streakRecord, habit.streak);
           habit.streak = 0;
           updated = true;
         }
