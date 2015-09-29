@@ -16,3 +16,4 @@ deploy:
   app: habit-trainer
   on:
     repo: greenfield-apollo/greenfield-apollo
+    branch: staging
