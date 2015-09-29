@@ -36,41 +36,52 @@ module.exports = {
     });
   },
 
-  checkinHabit: function(req, res, next) {
+  verifyHabit: function(req, res, next) {
     User.findOne({username: req.user}, function(err, user) {
       if (err) return next(err);
 
-      var match = false;
-
       user.habits.forEach(function(habit) {
         if (habit.id === req.params.id) {
-          match = true;
+          // store the user model and habit reference in the request for other
+          // middlewares
+          req.mw_params = {
+            dbUser: user,
+            dbHabit: habit
+          };
 
-          if (habit.lastCheckin && utils.recentlyCheckedIn(habit, 1)) {
-            return next(utils.err('Already completed this habit today.'));
-          } else {
-            if (utils.recentlyCheckedIn(habit, 2)) {
-              habit.streak++;
-            } else {
-              habit.streak = 0;
-            }
-
-            habit.lastCheckin = new Date();
-            habit.streakRecord = Math.max(habit.streakRecord, habit.streak);
-
-            user.save(function(err) {
-              if (err) return next(err);
-            });
-          }
+          return next();
         }
       });
 
-      if (!match) {
-        return next(utils.err('Habit ID does not belong to this user.'));
-      } else {
-        next();
+      if (!req.mw_params) {
+        next(utils.err('Habit ID does not belong to this user.'));
       }
     });
+  },
+
+  checkinHabit: function(req, res, next) {
+    // passed down by verifyHabit()
+    var user = req.mw_params.dbUser;
+    var habit = req.mw_params.dbHabit;
+
+    if (habit.lastCheckin && utils.recentlyCheckedIn(habit, 1)) {
+      return next(utils.err('Already completed this habit today.'));
+    } else {
+      if (utils.recentlyCheckedIn(habit, 2)) {
+        habit.streak++;
+      } else {
+        habit.streak = 0;
+      }
+
+      habit.lastCheckin = new Date();
+      habit.streakRecord = Math.max(habit.streakRecord, habit.streak);
+
+      user.save(function(err) {
+        if (err) return next(err);
+
+        next();
+      });
+    }
   },
 
   update: function(req, res, next) {
