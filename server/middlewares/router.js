@@ -12,6 +12,10 @@ module.exports = function(app, express) {
   app.use('/api/users', expressJwt({secret: config.secret}), usersRouter);
   require('./users')(usersRouter);
 
+  var recordsRouter = express.Router();
+  app.use('/api/records', expressJwt({secret: config.secret}), recordsRouter);
+  require('./records')(recordsRouter);
+
   // authentication routes =========================================
   var authRouter = express.Router();
   app.use('/authenticate', authRouter);

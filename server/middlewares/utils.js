@@ -1,6 +1,7 @@
 // modules =================================================
 var util = require('util');
 var jwt = require('jsonwebtoken');
+var moment = require('moment');
 var config = require('../config/config');
 
 module.exports = {
@@ -32,5 +33,14 @@ module.exports = {
     }
 
     return true;
+  },
+
+  // check if last check-in time is within X days of the due time today
+  recentlyCheckedIn: function(habit, days) {
+    var cutOff = moment().hour(habit.dueTime.getHours())
+      .minute(habit.dueTime.getMinutes())
+      .subtract(days, 'days');
+
+    return moment(habit.lastCheckin).isAfter(cutOff);
   }
 };

@@ -12,15 +12,22 @@ var mongoose = require('mongoose');
 var config = require('./config/config');
 app.set('port', process.env.PORT || config.port);
 
-mongoose.connect(process.env.MONGOLAB_URI || config.localdb,
-  function(err) {
-    if (err) {
-      console.error('Error connecting to MongoDB: ', process.env.MONGOLAB_URI || config.localdb);
-      throw err;
-    }
-  });
+var dbURI = process.env.MONGOLAB_URI || config.localdb;
+mongoose.connect(dbURI);
+var db = mongoose.connection;
 
-var User = require('./models/user');
+db.on('error', function(err) {
+  console.error('Mongoose connection error, retrying in 5 seconds.');
+  setTimeout(function() {
+    mongoose.connect(dbURI);
+  }, 5000);
+});
+db.on('connected', function() {
+  console.log('Mongoose connection open to ' + dbURI);
+});
+db.on('disconnected', function() {
+  console.log('Mongoose connection disconnected.');
+});
 
 // middlewares =============================================
 app.use(morgan('dev'));
