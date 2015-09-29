@@ -3,7 +3,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 // schema ==================================================
-var HabitMetaSchema = new Schema({
+var HabitSchema = new Schema({
   habitName: {
     type: String,
     required: true
@@ -49,7 +49,7 @@ var UserSchema = new Schema({
     default: 1
   },
 
-  habits: [HabitMetaSchema]
+  habits: [HabitSchema]
 });
 
 module.exports = mongoose.model('User', UserSchema);

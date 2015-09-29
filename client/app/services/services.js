@@ -2,19 +2,29 @@ angular.module('app.services', [])
 
 .factory('Habits', ['$http',
   function($http) {
-    var getAll = function(username) {
+
+    var service = {};
+
+    service.getHabits = function() {
       return $http({
         method: 'GET',
-        url: '/api/users/' + username
+        url: '/api/users/habits'
       })
       .then(function(resp) {
-        return resp.data;
+        return resp.data.habits;
       });
     };
 
-    return {
-      getAll: getAll
+    service.addHabit = function(habit) {
+      return $http({
+        method: 'POST',
+        url: '/api/users/habits',
+        data: habit
+      });
     };
+
+    return service;
+
   }
 ])
 
