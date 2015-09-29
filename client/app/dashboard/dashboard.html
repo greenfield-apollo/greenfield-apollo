@@ -1,17 +1,40 @@
 <div class="container">
-  <div class="habits">
-    <div class="habit" ng-repeat="habit in habits">
-      <div class="info">
-        <span class="name">
-          {{ habit.name }}
-        </span>
-        <span class="schedule">
-          {{ habit.schedule }}
-        </span>
-        <span class="streak">
+  <div class="habits info">
+    <table class="table table-striped table-bordered table-hover">
+      <tr>
+        <th>
+          Daily Habit
+        </th>
+        <th>
+          Reminder
+        </th>
+        <th>
+          Due
+        </th>
+        <th>
+          Current Streak
+        </th>
+        <th>
+          Record Streak
+        </th>
+      </tr>
+      <tr class="habit" ng-repeat="habit in habits">
+        <td>
+          {{ habit.habitName }}
+        </td>
+        <td>
+          {{ habit.reminderTime | date:'shortTime' }}
+        </td>
+        <td>
+          {{ habit.dueTime | date:'shortTime' }}
+        </td>
+        <td>
           {{ habit.streak }}
-        </span>
-      </div>
-    </div>
+        </td>
+        <td>
+          {{ habit.streakRecord }}
+        </td>
+      </tr>
+    </table>
   </div>
 </div>
