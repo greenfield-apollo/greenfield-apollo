@@ -17,7 +17,7 @@ angular.module('app.edit', [])
     };
 
     $scope.deactivateHabit = function() {
-      $scope.habit.status = 'inactive';
+      $scope.habit.active = false;
       Habits.updateHabit($scope.habit)
         .then(function() {
           $location.path('/dashboard');

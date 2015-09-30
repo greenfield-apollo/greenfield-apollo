@@ -21,7 +21,7 @@
           Edit Habit
         </th>
       </tr>
-      <tr class="habit" ng-repeat="habit in habits" | filter: {status: 'active'}>
+      <tr class="habit" ng-repeat="habit in habits | filter:{active:true}">
         <td>
           {{ habit.habitName }}
         </td>
