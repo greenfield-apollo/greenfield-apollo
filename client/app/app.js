@@ -1,4 +1,5 @@
 angular.module('app', [
+  'app.directives',
   'app.services',
   'app.create',
   'app.dashboard',
@@ -54,8 +55,6 @@ angular.module('app', [
     return attach;
   }
 ])
-
-
 
 .run(['$rootScope', '$location', 'Auth',
   function ($rootScope, $location, Auth) {

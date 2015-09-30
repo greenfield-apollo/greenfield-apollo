@@ -37,4 +37,15 @@
       </tr>
     </table>
   </div>
+  <div class="graph" id="current-streak">
+    <div ng-if="habitStreaks.length">
+      <h3>Current Streak</h3>
+      <d3-bars data="habitStreaks"></d3-bars>
+    </div>
+    <!-- Placeholder streak data -->
+    <div ng-if="!habitStreaks.length">
+      <h3>Current Streak (Sample data)</h3>
+      <d3-bars data="sampleStreaks"></d3-bars>
+    </div>
+  </div>
 </div>
