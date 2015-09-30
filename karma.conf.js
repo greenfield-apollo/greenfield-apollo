@@ -28,9 +28,12 @@ module.exports = function(config) {
     // list of files / patterns to load in the browser
     files: [
       // angular source
-      'client/lib/angular/angular.js',
-      'client/lib/angular-route/angular-route.js',
+      'client/lib/d3/d3.min.js',
+      'client/lib/c3/c3.min.js',
+      'client/lib/angular/angular.min.js',
+      'client/lib/angular-route/angular-route.min.js',
       'client/lib/angular-mocks/angular-mocks.js',
+      'client/lib/c3-angular/c3-angular.min.js',
 
       // our app code
       'client/app/**/*.js',

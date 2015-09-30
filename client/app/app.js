@@ -4,7 +4,8 @@ angular.module('app', [
   'app.create',
   'app.dashboard',
   'app.auth',
-  'ngRoute'
+  'ngRoute',
+  'gridshore.c3js.chart'
 ])
 
 .config(['$routeProvider', '$httpProvider',
