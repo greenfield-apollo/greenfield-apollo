@@ -34,11 +34,6 @@ var HabitSchema = new Schema({
   streakRecord: {
     type: Number,
     default: 0
-  },
-
-  status: {
-    type: String,
-    default: 'active'
   }
 });
 
