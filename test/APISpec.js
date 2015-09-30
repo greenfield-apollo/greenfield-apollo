@@ -1,5 +1,7 @@
 'use strict';
 
+process.env.MONGOLAB_URI = 'mongodb://127.0.0.1:27017/habitdbtest';
+
 var expect = require('chai').expect;
 var app = require('../server/server');
 var request = require('supertest');

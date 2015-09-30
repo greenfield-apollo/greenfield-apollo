@@ -9,4 +9,9 @@ module.exports = function (router) {
   // POST: /api/users/habits
   // adds a new habit entry to the user data
   router.post('/habits', userController.addHabit);
+
+  // PUT: /api/users/habits/<habit id>
+  // deactivates habit or edit reminder time / due time
+  router.put('/habits/:id', userController.verifyHabit,
+    userController.editHabit);
 };
