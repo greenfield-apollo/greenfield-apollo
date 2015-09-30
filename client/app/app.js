@@ -2,6 +2,7 @@ angular.module('app', [
   'app.directives',
   'app.services',
   'app.create',
+  'app.edit',
   'app.dashboard',
   'app.auth',
   'ngRoute',
@@ -31,6 +32,11 @@ angular.module('app', [
       .when('/create', {
         templateUrl: 'app/create/create.html',
         controller: 'CreateController',
+        authenticate: true
+      })
+      .when('/edit', {
+        templateUrl: 'app/edit/edit.html',
+        controller: 'EditController',
         authenticate: true
       })
       .otherwise({

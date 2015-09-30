@@ -12,8 +12,6 @@ angular.module('app.create', [])
         .catch(function(err) {
           console.error(err);
         });
-      //console.log('Reminder = ', $scope.reminder, ' || Type = ', typeof($scope.reminder));
-      //console.log('Due = ', $scope.due, ' || Type = ', typeof($scope.due));
     };
   }
 ]);

@@ -17,8 +17,11 @@
         <th>
           Record Streak
         </th>
+        <th>
+          Edit Habit
+        </th>
       </tr>
-      <tr class="habit" ng-repeat="habit in habits">
+      <tr class="habit" ng-repeat="habit in habits | filter:{active:true}">
         <td>
           {{ habit.habitName }}
         </td>
@@ -33,6 +36,9 @@
         </td>
         <td>
           {{ habit.streakRecord }}
+        </td>
+        <td>
+          <button type="button" class="btn btn-success" ng-click="editHabit(habit)">Edit</button>
         </td>
       </tr>
     </table>
