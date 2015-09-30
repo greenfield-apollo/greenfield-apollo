@@ -3,6 +3,7 @@ angular.module('app.services', [])
 .factory('Habits', ['$http',
   function($http) {
 
+    var _habit = {};
     var service = {};
 
     service.getHabits = function() {
@@ -19,6 +20,24 @@ angular.module('app.services', [])
       return $http({
         method: 'POST',
         url: '/api/users/habits',
+        data: habit
+      });
+    };
+
+    service.setEdit = function(habit) {
+      _habit = habit;
+      _habit.reminderTime = new Date(_habit.reminderTime);
+      _habit.dueTime = new Date(_habit.dueTime);
+    };
+
+    service.getEdit = function(habit) {
+      return _habit;
+    };
+
+    service.updateHabit = function(habit) {
+      return $http({
+        method: 'PUT',
+        url: '/api/users/habits/' + habit._id,
         data: habit
       });
     };

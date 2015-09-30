@@ -19,6 +19,11 @@ var HabitSchema = new Schema({
     required: true
   },
 
+  active: {
+    type: Boolean,
+    default: true
+  },
+
   lastCheckin: Date,
 
   streak: {

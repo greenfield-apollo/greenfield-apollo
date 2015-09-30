@@ -1,9 +1,12 @@
 angular.module('app', [
+  'app.directives',
   'app.services',
   'app.create',
+  'app.edit',
   'app.dashboard',
   'app.auth',
-  'ngRoute'
+  'ngRoute',
+  'gridshore.c3js.chart'
 ])
 
 .config(['$routeProvider', '$httpProvider',
@@ -31,6 +34,11 @@ angular.module('app', [
         controller: 'CreateController',
         authenticate: true
       })
+      .when('/edit', {
+        templateUrl: 'app/edit/edit.html',
+        controller: 'EditController',
+        authenticate: true
+      })
       .otherwise({
         redirectTo: '/dashboard'
       });
@@ -54,8 +62,6 @@ angular.module('app', [
     return attach;
   }
 ])
-
-
 
 .run(['$rootScope', '$location', 'Auth',
   function ($rootScope, $location, Auth) {

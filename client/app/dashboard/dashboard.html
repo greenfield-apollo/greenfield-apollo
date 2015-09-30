@@ -17,8 +17,11 @@
         <th>
           Record Streak
         </th>
+        <th>
+          Edit Habit
+        </th>
       </tr>
-      <tr class="habit" ng-repeat="habit in habits">
+      <tr class="habit" ng-repeat="habit in habits | filter:{active:true}">
         <td>
           {{ habit.habitName }}
         </td>
@@ -34,7 +37,55 @@
         <td>
           {{ habit.streakRecord }}
         </td>
+        <td>
+          <button type="button" class="btn btn-success" ng-click="editHabit(habit)">Edit</button>
+        </td>
       </tr>
     </table>
+  </div>
+  <div class="row">
+    <div class="col-md-2">
+      <h2>Habit Score</h2>
+    </div>
+    <div class="col-md-10">
+      <h2>Current Streak</h2>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-2 donut-col">
+      <!-- To-do: Plug into controller/database -->
+      <c3chart class="donut" bindto-id="donut-plot1-chart">
+      <chart-legend show-legend="false">
+        <chart-column column-id="Failed"
+                    column-values="6"
+                    column-type="donut"
+                    column-color="#d62728"/>
+        <chart-column column-id="Completed (Task 3)"
+                    column-values="18"
+                    column-type="donut"
+                    column-color="#2CA02C"/>
+        <chart-column column-id="Completed (Task 2)"
+                    column-values="37"
+                    column-type="donut"
+                    column-color="#FF7F0E"/>
+        <chart-column column-id="Completed (Task 1)"
+                    column-values="45"
+                    column-type="donut"
+                    column-color="#1f77b4"/>
+        <chart-donut title="94" show-label="false"/>
+        <chart-tooltip value-format-function="formatDonut"/>
+      </c3chart>
+    </div>
+    <div class="col-md-10">
+      <div class="graph" id="current-streak">
+        <div ng-if="habitStreaks.length">
+          <d3-bars data="habitStreaks"></d3-bars>
+        </div>
+        <!-- Placeholder streak data -->
+        <div ng-if="!habitStreaks.length">
+          <d3-bars data="sampleStreaks"></d3-bars>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
