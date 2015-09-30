@@ -2,6 +2,13 @@ angular.module('app.dashboard', [])
 
 .controller('DashboardController', ['$rootScope', '$scope', 'Habits',
   function($rootScope, $scope, Habits) {
+
+    $scope.testHabits = [
+      {habitName: 'Submit a Pull Request', completed: 25, failed: 7},
+      {habitName: 'Complete a Pomodoro', completed: 20, failed: 4},
+      {habitName: 'Workout', completed: 15, failed: 2}
+    ];
+
     $rootScope.showNav = true;
     // Placeholder streak data
     $scope.sampleStreaks = [
@@ -9,6 +16,7 @@ angular.module('app.dashboard', [])
       {habitName: 'Complete a Pomodoro', streak: 10},
       {habitName: 'Workout', streak: 8}
     ];
+
 
     $scope.getHabits = function() {
       Habits.getHabits()
@@ -23,6 +31,11 @@ angular.module('app.dashboard', [])
           console.error(error);
         });
     }
+
+    $scope.formatDonut = function (value) {
+        return value;
+    };
+
 
     $scope.getHabits();
   }
