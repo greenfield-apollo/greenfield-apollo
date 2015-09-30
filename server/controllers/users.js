@@ -1,4 +1,5 @@
 // modules =================================================
+var moment = require('moment');
 var utils = require('../middlewares/utils');
 var User = require('../models/user');
 
@@ -70,10 +71,11 @@ module.exports = {
       if (utils.recentlyCheckedIn(habit, 2)) {
         habit.streak++;
       } else {
-        habit.streak = 0;
+        habit.streak = 1;
       }
 
-      habit.lastCheckin = new Date();
+      req.mw_params.checkin = utils.currentCheckinDate(habit);
+      habit.lastCheckin = req.mw_params.checkin;
       habit.streakRecord = Math.max(habit.streakRecord, habit.streak);
 
       user.save(function(err) {

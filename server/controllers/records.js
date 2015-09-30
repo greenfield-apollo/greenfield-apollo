@@ -19,7 +19,7 @@ module.exports = {
   addRecord: function(req, res, next) {
     var newRecord = new Record({
       habitId: req.params.id,
-      checkinDate: new Date()
+      checkinDate: req.mw_params.checkin
     });
 
     newRecord.save(function(err) {
