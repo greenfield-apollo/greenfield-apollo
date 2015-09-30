@@ -1,5 +1,7 @@
 'use strict';
 
+process.env.MONGOLAB_URI = 'mongodb://127.0.0.1:27017/habitdbtest';
+
 var expect = require('chai').expect;
 var app = require('../server/server');
 var request = require('supertest');
@@ -264,7 +266,7 @@ describe('Server Tests:', function() {
             .expect(function(res) {
               expect(res.body.habits[0].streak).to.equal(4);
               expect(res.body.habits[0].streakRecord).to.equal(4);
-              expect(res.body.habits[2].streak).to.equal(0);
+              expect(res.body.habits[2].streak).to.equal(1);
             })
             .end(done);
         };

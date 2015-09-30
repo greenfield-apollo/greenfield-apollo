@@ -35,11 +35,20 @@ module.exports = {
     return true;
   },
 
-  // check if last check-in time is within X days of the due time today
-  recentlyCheckedIn: function(habit, days) {
-    var cutOff = moment().hour(habit.dueTime.getHours())
+  // checking in after due time today is considered the next day
+  currentCheckinDate: function(habit) {
+    if (moment().hour(habit.dueTime.getHours())
       .minute(habit.dueTime.getMinutes())
-      .subtract(days, 'days');
+      .isBefore(moment(), 'minute')) {
+      return moment().add(1, 'days');
+    } else {
+      return moment();
+    }
+  },
+
+  // check if last check-in day is within X days of the current check-in day
+  recentlyCheckedIn: function(habit, days) {
+    var cutOff = this.currentCheckinDate(habit).subtract(days, 'days');
 
     return moment(habit.lastCheckin).isAfter(cutOff);
   }

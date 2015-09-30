@@ -1,4 +1,5 @@
 // modules =================================================
+var moment = require('moment');
 var utils = require('../middlewares/utils');
 var User = require('../models/user');
 
@@ -59,8 +60,44 @@ module.exports = {
     });
   },
 
-  checkinHabit: function(req, res, next) {
+  editHabit: function(req, res, next) {
     // passed down by verifyHabit()
+    var user = req.mw_params.dbUser;
+    var habit = req.mw_params.dbHabit;
+
+    var edited = false;
+
+    if (!habit.active) {
+      return next(utils.err('Cannot edit inactive habit.'));
+    } else {
+      if (req.body.active === false) {
+        habit.active = false;
+        edited = true;
+      } else {
+        if (req.body.reminderTime) {
+          habit.reminderTime = req.body.reminderTime;
+          edited = true;
+        }
+
+        if (req.body.dueTime) {
+          habit.dueTime = req.body.dueTime;
+          edited = true;
+        }
+      }
+
+      if (edited) {
+        user.save(function(err) {
+          if (err) return next(err);
+
+          res.json({message: 'Habit edited.'});
+        });
+      } else {
+        res.json({message: 'No change made to habit.'});
+      }
+    }
+  },
+
+  checkinHabit: function(req, res, next) {
     var user = req.mw_params.dbUser;
     var habit = req.mw_params.dbHabit;
 
@@ -70,10 +107,11 @@ module.exports = {
       if (utils.recentlyCheckedIn(habit, 2)) {
         habit.streak++;
       } else {
-        habit.streak = 0;
+        habit.streak = 1;
       }
 
-      habit.lastCheckin = new Date();
+      req.mw_params.checkin = utils.currentCheckinDate(habit);
+      habit.lastCheckin = req.mw_params.checkin;
       habit.streakRecord = Math.max(habit.streakRecord, habit.streak);
 
       user.save(function(err) {
