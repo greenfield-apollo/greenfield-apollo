@@ -22,3 +22,9 @@
 .donut svg {
   max-height: 155px;
 }
+
+input[readonly] {
+  cursor: not-allowed;
+  background-color: #EEEEEE;
+  color: #9E9999;
+}
