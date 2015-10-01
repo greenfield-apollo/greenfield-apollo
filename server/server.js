@@ -7,9 +7,12 @@ var bodyParser = require('body-parser');
 var errorHandler = require('express-error-handler');
 var morgan = require('morgan');
 var mongoose = require('mongoose');
+var passport = require('passport');
+var JwtStrategy = require('passport-jwt').Strategy;
+var config = require('./config/config');
+var strategies = require('./config/strategies');
 
 // configuration ===========================================
-var config = require('./config/config');
 app.set('port', process.env.PORT || config.port);
 
 var dbURI = process.env.MONGOLAB_URI || config.localdb;
@@ -28,6 +31,8 @@ db.on('connected', function() {
 db.on('disconnected', function() {
   console.log('Mongoose connection disconnected.');
 });
+
+passport.use(new JwtStrategy(strategies.jwtOpts, strategies.jwtAuth));
 
 // middlewares =============================================
 app.use(morgan('dev'));

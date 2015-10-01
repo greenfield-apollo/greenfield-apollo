@@ -1,5 +1,5 @@
 // modules =================================================
-var expressJwt = require('express-jwt');
+var passport = require('passport');
 var path = require('path');
 var config = require('../config/config');
 var utils = require('./utils');
@@ -9,11 +9,13 @@ module.exports = function(app, express) {
   // status code 401 if unauthorized
   // pass token in req.headers.Authorizaion as 'Bearer [token]'
   var usersRouter = express.Router();
-  app.use('/api/users', expressJwt({secret: config.secret}), usersRouter);
+  app.use('/api/users', passport.authenticate('jwt', {session: false}),
+    usersRouter);
   require('./users')(usersRouter);
 
   var recordsRouter = express.Router();
-  app.use('/api/records', expressJwt({secret: config.secret}), recordsRouter);
+  app.use('/api/records', passport.authenticate('jwt', {session: false}),
+    recordsRouter);
   require('./records')(recordsRouter);
 
   // public API routes, for extension development only =============
