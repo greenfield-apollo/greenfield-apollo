@@ -3,6 +3,7 @@ angular.module('app.create', [])
 .controller('CreateController', ['$rootScope', '$scope', '$location', 'Habits',
   function($rootScope, $scope, $location, Habits) {
     $rootScope.showNav = true;
+    $scope.habit = {};
     Habits.getHabits()
       .then(function(habits) {
         var count = 0;
