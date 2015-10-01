@@ -9,4 +9,8 @@ module.exports = function(router) {
   // POST: /authenticate/signup
   // verifies unique username, add to Users collection, issues token
   router.post('/signup', authController.signup);
+
+  // POST: /authenticate/google
+  // exchanges google oAuth2 authorization code for token
+  router.post('/google', authController.google);
 };

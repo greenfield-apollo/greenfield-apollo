@@ -1,7 +1,6 @@
 // modules =================================================
 var passport = require('passport');
 var path = require('path');
-var config = require('../config/config');
 var utils = require('./utils');
 
 module.exports = function(app, express) {
