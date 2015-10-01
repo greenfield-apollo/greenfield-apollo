@@ -1,7 +1,12 @@
 try {
   var secret = require('../config/secret');
 }
-catch (err) {}
+catch (err) {
+  var secret = {
+    tokenSecret: '',
+    googleSecret: ''
+  }
+}
 
 module.exports = {
   port: 8080,
