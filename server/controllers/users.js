@@ -1,7 +1,6 @@
 // modules =================================================
 var moment = require('moment');
 var utils = require('../middlewares/utils');
-var User = require('../models/user');
 
 module.exports = {
   showHabits: function(req, res, next) {

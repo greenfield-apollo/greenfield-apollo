@@ -5,9 +5,12 @@ var moment = require('moment');
 var config = require('../config/config');
 
 module.exports = {
-  // issues jwt token with username as payload
-  issueToken: function(username) {
-    return jwt.sign(username, config.secret, {
+  // issues jwt token with user identifier and user type as payload
+  issueToken: function(identifier, type) {
+    return jwt.sign({
+      user: identifier,
+      type: type
+    }, config.tokenSecret, {
       expiresInMinutes: 60 * 24
     });
   },
