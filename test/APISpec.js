@@ -135,7 +135,7 @@ describe('Server Tests:', function() {
               reminderTime: moment(),
               dueTime: moment()
             })
-            .set('Authorization', 'bearer ' + token)
+            .set('Authorization', 'Bearer ' + token)
             .expect(200, cb);
         };
 
@@ -146,7 +146,7 @@ describe('Server Tests:', function() {
               reminderTime: moment(),
               dueTime: moment()
             })
-            .set('Authorization', 'bearer ' + token)
+            .set('Authorization', 'Bearer ' + token)
             .expect(200, done);
         };
 
@@ -175,7 +175,7 @@ describe('Server Tests:', function() {
 
         var cb = function() {
           agent.get('/api/users/habits')
-            .set('Authorization', 'bearer ' + token)
+            .set('Authorization', 'Bearer ' + token)
             .expect(function(res) {
               expect(res.body.habits[0].streak).to.equal(3);
               expect(res.body.habits[1].streak).to.equal(0);
@@ -191,13 +191,13 @@ describe('Server Tests:', function() {
       it('should be able to check in', function(done) {
         var begin = function() {
           agent.post('/api/records/' + habit0)
-            .set('Authorization', 'bearer ' + token)
+            .set('Authorization', 'Bearer ' + token)
             .expect(200, {message: 'Checked in successfully.'}, cb);
         };
 
         var cb = function() {
           agent.get('/api/records/' + habit0)
-            .set('Authorization', 'bearer ' + token)
+            .set('Authorization', 'Bearer ' + token)
             .expect(200)
             .expect(function(res) {
               expect(res.body.records.length).to.equal(1);
@@ -210,7 +210,7 @@ describe('Server Tests:', function() {
 
       it ('should fail if habit does not belong to user', function(done) {
         agent.post('/api/records/abc')
-          .set('Authorization', 'bearer ' + token)
+          .set('Authorization', 'Bearer ' + token)
           .expect({
             status: 403,
             message: 'Habit ID does not belong to this user.'
@@ -219,7 +219,7 @@ describe('Server Tests:', function() {
 
       it ('should not be able to check in twice in a day', function(done) {
         agent.post('/api/records/' + habit0)
-          .set('Authorization', 'bearer ' + token)
+          .set('Authorization', 'Bearer ' + token)
           .expect({
             status: 403,
             message: 'Already completed this habit today.'
@@ -234,7 +234,7 @@ describe('Server Tests:', function() {
               reminderTime: moment(),
               dueTime: moment()
             })
-            .set('Authorization', 'bearer ' + token)
+            .set('Authorization', 'Bearer ' + token)
             .end(cb1);
         };
 
@@ -256,13 +256,13 @@ describe('Server Tests:', function() {
 
         var cb2 = function() {
           agent.post('/api/records/' + habit2)
-            .set('Authorization', 'bearer ' + token)
+            .set('Authorization', 'Bearer ' + token)
             .end(cb3);
         };
 
         var cb3 = function() {
           agent.get('/api/users/habits')
-            .set('Authorization', 'bearer ' + token)
+            .set('Authorization', 'Bearer ' + token)
             .expect(function(res) {
               expect(res.body.habits[0].streak).to.equal(4);
               expect(res.body.habits[0].streakRecord).to.equal(4);
