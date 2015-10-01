@@ -1,5 +1,5 @@
 <div class="container">
-  <div class="create">
+  <div class="create" ng-if="showCreate">
     <form name="habitForm" ng-submit="addHabit()">
       <table>
         <tr>
@@ -37,5 +37,9 @@
         Add habit
       </button>
     </form>
+  </div>
+  <div class="panel panel-danger" ng-if="showLimitExceed">
+    <div class="panel-heading">Active Habit Limit</div>
+    <div class="panel-body">Sorry, we do not track more than 3 daily active habits</div>
   </div>
 </div>

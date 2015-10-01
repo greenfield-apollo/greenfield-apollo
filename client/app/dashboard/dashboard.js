@@ -26,7 +26,7 @@ angular.module('app.dashboard', [])
           $scope.habitStreaks = $scope.habits.filter(function (habit) {
             return habit.streak > 0;
           });
-          console.log($scope.habits);  // REMOVE
+          //console.log($scope.habits);  // REMOVE
         })
         .catch(function(error) {
           console.error(error);
