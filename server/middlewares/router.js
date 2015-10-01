@@ -16,6 +16,14 @@ module.exports = function(app, express) {
   app.use('/api/records', expressJwt({secret: config.secret}), recordsRouter);
   require('./records')(recordsRouter);
 
+  // public API routes, for extension development only =============
+  var publicRouter = express.Router();
+  app.use('/public', function(req, res, next) {
+    req.user = 'publicuser';
+    next();
+  }, publicRouter);
+  require('./public')(publicRouter);
+
   // authentication routes =========================================
   var authRouter = express.Router();
   app.use('/authenticate', authRouter);
