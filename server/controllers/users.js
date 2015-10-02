@@ -4,7 +4,11 @@ var utils = require('../middlewares/utils');
 
 module.exports = {
   showHabits: function(req, res, next) {
-    res.json({habits: req.user.habits});
+    res.json({
+      habitCount: req.user.habitCount,
+      habitLimit: req.user.habitLimit,
+      habits: req.user.habits
+    });
   },
 
   addHabit: function(req, res, next) {
@@ -14,10 +18,13 @@ module.exports = {
       dueTime: req.body.dueTime
     };
 
-    if (!utils.checkProperty(habit, next)) {
+    if (req.user.habitCount >= req.user.habitLimit) {
+      return next(utils.err('Habit limit reached.'));
+    } else if (!utils.checkProperty(habit, next)) {
       return;
     } else {
       req.user.habits.push(habit);
+      req.user.habitCount++;
 
       req.user.save(function(err) {
         if (err) return next(err);
@@ -55,6 +62,7 @@ module.exports = {
     } else {
       if (req.body.active === false) {
         habit.active = false;
+        req.user.habitCount--;
         edited = true;
       } else {
         if (req.body.reminderTime) {
@@ -109,7 +117,8 @@ module.exports = {
 
     req.user.habits.forEach(function(habit) {
       // reset habit streak if last check-in time is more than 2 days ago
-      if (habit.lastCheckin && !utils.recentlyCheckedIn(habit, 2)) {
+      if (habit.active && habit.lastCheckin
+        && !utils.recentlyCheckedIn(habit, 2)) {
         habit.streak = 0;
         updated = true;
       }

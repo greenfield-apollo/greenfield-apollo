@@ -1,8 +1,6 @@
 // modules =================================================
-var http = require('http');
 var express = require('express');
 var app = express();
-var server = http.createServer(app);
 var bodyParser = require('body-parser');
 var errorHandler = require('express-error-handler');
 var morgan = require('morgan');
@@ -42,6 +40,6 @@ app.use(express.static(__dirname + '/../client'));
 // routes ==================================================
 require('./middlewares/router')(app, express);
 
-app.use(errorHandler({server: server}));
+app.use(errorHandler({server: app}));
 
 module.exports = app;
