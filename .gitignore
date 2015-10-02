@@ -5,3 +5,4 @@ node_modules/
 
 client/lib/
 client/dist/
+server/config/secret.js

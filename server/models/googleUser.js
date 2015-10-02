@@ -4,16 +4,11 @@ var Schema = mongoose.Schema;
 var HabitSchema = require('./habit');
 
 // schema ==================================================
-var UserSchema = new Schema({
-  username: {
+var GoogleUserSchema = new Schema({
+  google: {
     type: String,
     required: true,
     unique: true
-  },
-
-  password: {
-    type: String,
-    required: true
   },
 
   habitLimit: {
@@ -24,4 +19,4 @@ var UserSchema = new Schema({
   habits: [HabitSchema]
 });
 
-module.exports = mongoose.model('User', UserSchema);
+module.exports = mongoose.model('GoogleUser', GoogleUserSchema);
