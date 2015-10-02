@@ -17,21 +17,13 @@ module.exports = {
       User.findOne({username: payload.user}, function(err, user) {
         if (err) return next(err, false);
 
-        if (user) {
-          next(null, user);
-        } else {
-          next(null, false);
-        }
+        user ? next(null, user) : next(null, false)
       });
     } else if (payload.type === 'google') {
-      GoogleUser.findOne({username: payload.user}, function(err, user) {
+      GoogleUser.findOne({google: payload.user}, function(err, user) {
         if (err) return next(err, false);
 
-        if (user) {
-          next(null, user);
-        } else {
-          next(null, false);
-        }
+        user ? next(null, user) : next(null, false)
       });
     }
   }

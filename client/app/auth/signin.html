@@ -8,6 +8,9 @@
     <input class="form-control" type="password" ng-model='user.password' placeholder="Password" required>
     <br>
     <input class="btn btn-default" type="submit" value="Login">
+    &nbsp;
+    <!-- Satellizer authentication -->
+    <button class="btn btn-default" ng-click="authenticate('google')">Sign in with Google</button>
     <!-- Temporary alert padding -->
     &nbsp;&nbsp;
     <span ng-if="alert" class="alert alert-danger">
