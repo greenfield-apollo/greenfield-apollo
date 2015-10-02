@@ -11,7 +11,7 @@ module.exports = {
       user: identifier,
       type: type
     }, config.tokenSecret, {
-      expiresInMinutes: 60 * 24
+      expiresIn: 60 * 60 * 24
     });
   },
 
