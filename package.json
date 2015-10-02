@@ -30,7 +30,8 @@
     "mongoose": "^4.1.8",
     "morgan": "^1.6.1",
     "passport": "^0.3.0",
-    "passport-jwt": "^1.2.1"
+    "passport-jwt": "^1.2.1",
+    "request": "^2.64.0"
   },
   "devDependencies": {
     "angular-mocks": "^1.4.6",
