@@ -6,11 +6,12 @@ angular.module('app', [
   'app.dashboard',
   'app.auth',
   'ngRoute',
-  'gridshore.c3js.chart'
+  'gridshore.c3js.chart',
+  'satellizer'
 ])
 
-.config(['$routeProvider', '$httpProvider',
-  function ($routeProvider, $httpProvider) {
+.config(['$routeProvider', '$httpProvider', '$authProvider',
+  function ($routeProvider, $httpProvider, $authProvider) {
     $routeProvider
       .when('/signin', {
         templateUrl: 'app/auth/signin.html',
@@ -43,7 +44,15 @@ angular.module('app', [
         redirectTo: '/dashboard'
       });
 
-      $httpProvider.interceptors.push('AttachTokens');
+    $authProvider.loginUrl = '/signin';
+    $authProvider.signupUrl = '/signup';
+
+    $authProvider.google({
+      clientId: '416143587162-phs72qq27pfvqua6buqb5lf4okum9krq.apps.googleusercontent.com',
+      url: '/authenticate/google'
+    });
+
+    $httpProvider.interceptors.push('AttachTokens');
   }
 ])
 

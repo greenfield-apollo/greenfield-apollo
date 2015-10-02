@@ -47,8 +47,8 @@ angular.module('app.services', [])
   }
 ])
 
-.factory('Auth', ['$http', '$location', '$window',
-  function ($http, $location, $window) {
+.factory('Auth', ['$http', '$location', '$window', '$auth',
+  function ($http, $location, $window, $auth) {
     var signin = function (user) {
       return $http.post('/authenticate/signin', user)
         .then(function (resp) {
@@ -64,12 +64,16 @@ angular.module('app.services', [])
     };
 
     var isAuth = function () {
-      return !!$window.localStorage.getItem('com.habit');
+      return !!($window.localStorage.getItem('com.habit') ||
+        $window.localStorage.getItem('satellizer_token'));
     };
 
     var signout = function () {
       $window.localStorage.removeItem('com.habit');
-      $location.path('/signin');
+      $auth.logout()
+        .then(function() {
+          $location.path('/signin');
+        });
     };
 
     return {

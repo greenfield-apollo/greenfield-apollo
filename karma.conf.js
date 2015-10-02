@@ -34,6 +34,7 @@ module.exports = function(config) {
       'client/lib/angular-route/angular-route.min.js',
       'client/lib/angular-mocks/angular-mocks.js',
       'client/lib/c3-angular/c3-angular.min.js',
+      'client/lib/satellizer/satellizer.min.js',
 
       // our app code
       'client/app/**/*.js',
