@@ -18,10 +18,15 @@ module.exports = function(app, express) {
   require('./records')(recordsRouter);
 
   // public API routes, for extension development only =============
+  var User = require('../models/user');
   var publicRouter = express.Router();
   app.use('/public', function(req, res, next) {
-    req.user = 'publicuser';
-    next();
+    User.findOne({username: 'publicuser'}, function(err, user) {
+      if (err) return next(err);
+
+      req.user = user;
+      next();
+    });
   }, publicRouter);
   require('./public')(publicRouter);
 
