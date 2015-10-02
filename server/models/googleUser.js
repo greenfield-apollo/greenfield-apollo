@@ -11,6 +11,11 @@ var GoogleUserSchema = new Schema({
     unique: true
   },
 
+  habitCount: {
+    type: Number,
+    default: 0
+  },
+
   habitLimit: {
     type: Number,
     default: 3
