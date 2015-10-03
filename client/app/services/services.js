@@ -1,7 +1,7 @@
 angular.module('app.services', [])
 
-.factory('Habits', ['$http',
-  function($http) {
+.factory('Habits', ['$http', '$sanitize',
+  function($http, $sanitize) {
 
     var _habit = {};
     var service = {};
@@ -17,6 +17,8 @@ angular.module('app.services', [])
     };
 
     service.addHabit = function(habit) {
+      habit.habitName = $sanitize(habit.habitName);
+      console.log('Habit is ', habit);
       return $http({
         method: 'POST',
         url: '/api/users/habits',
@@ -47,9 +49,11 @@ angular.module('app.services', [])
   }
 ])
 
-.factory('Auth', ['$http', '$location', '$window', '$auth',
-  function ($http, $location, $window, $auth) {
+.factory('Auth', ['$http', '$location', '$window', '$auth', '$sanitize',
+  function ($http, $location, $window, $auth, $sanitize) {
     var signin = function (user) {
+      user.username = $sanitize(user.username);
+      user.password = $sanitize(user.password);
       return $http.post('/authenticate/signin', user)
         .then(function (resp) {
           return resp.data.token;
@@ -57,6 +61,8 @@ angular.module('app.services', [])
     };
 
     var signup = function (user) {
+      user.username = $sanitize(user.username);
+      user.password = $sanitize(user.password);
       return $http.post('/authenticate/signup', user)
         .then(function (resp) {
           return resp.data.token;
