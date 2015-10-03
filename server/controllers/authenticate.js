@@ -8,20 +8,26 @@ var config = require('../config/config');
 module.exports = {
   signin: function(req, res, next) {
     User.findOne({
-      username: req.body.username
+      username: req.body.username.toLowerCase()
     }, function(err, user) {
       if (err) return next(err);
 
       if (!user) {
         return next(utils.err('User not found.'));
-      } else if (user.password !== req.body.password) {
-        return next(utils.err('Wrong password.'));
       } else {
-        var token = utils.issueToken(req.body.username, 'JWT');
+        user.comparePassword(req.body.password, function(err, match) {
+          if (err) return next(err);
 
-        res.json({
-          message: 'Token issued.',
-          token: token
+          if (!match) {
+            return next(utils.err('Wrong password.'));
+          } else {
+            var token = utils.issueToken(user.username, 'JWT');
+
+            res.json({
+              message: 'Token issued.',
+              token: token
+            });
+          }
         });
       }
     });
@@ -48,9 +54,9 @@ module.exports = {
           newUser.save(function(err) {
             if (err) return next(err);
 
-            console.log('New user ' + req.body.username + ' created.');
+            console.log('New user ' + newUser.username + ' created.');
 
-            var token = utils.issueToken(req.body.username, 'JWT');
+            var token = utils.issueToken(newUser.username, 'JWT');
 
             res.json({
               message: 'New user registered.',
