@@ -38,7 +38,7 @@ module.exports = {
   verifyHabit: function(req, res, next) {
     req.user.habits.forEach(function(habit) {
       if (habit.id === req.params.id) {
-        // store the user matching habit reference in the request for other
+        // store the matching habit reference in the request for other
         // middlewares
         req.mw_params = {dbHabit: habit};
 
@@ -91,17 +91,21 @@ module.exports = {
   checkinHabit: function(req, res, next) {
     var habit = req.mw_params.dbHabit;
 
-    if (habit.lastCheckin && utils.recentlyCheckedIn(habit, 1)) {
+    if (!habit.active) {
+      return next(utils.err('This habit has been deactivated.'));
+    }
+    else if (!habit.canCheckin) {
       return next(utils.err('Already completed this habit today.'));
     } else {
-      if (utils.recentlyCheckedIn(habit, 2)) {
+      if (utils.checkedInYesterday(habit)) {
         habit.streak++;
       } else {
         habit.streak = 1;
       }
 
-      req.mw_params.checkin = utils.currentCheckinDate(habit);
-      habit.lastCheckin = req.mw_params.checkin;
+      req.mw_params.checkin = habit.lastCheckin = Date.now();
+      habit.checkinCount++;
+      habit.canCheckin = false;
       habit.streakRecord = Math.max(habit.streakRecord, habit.streak);
 
       req.user.save(function(err) {
@@ -109,30 +113,6 @@ module.exports = {
 
         next();
       });
-    }
-  },
-
-  update: function(req, res, next) {
-    var updated = false;
-
-    req.user.habits.forEach(function(habit) {
-      // reset habit streak if last check-in time is more than 2 days ago
-      if (habit.active && habit.lastCheckin
-        && !utils.recentlyCheckedIn(habit, 2)) {
-        habit.streak = 0;
-        updated = true;
-      }
-    });
-
-    if (updated) {
-      req.user.save(function(err) {
-        if (err) return next(err);
-
-        console.log('Habit streak records updated.');
-        next();
-      });
-    } else {
-      next();
     }
   }
 };

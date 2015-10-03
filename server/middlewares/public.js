@@ -5,7 +5,7 @@ var recordController = require('../controllers/records');
 module.exports = function (router) {
   // GET: /public/users/habits
   // updates habit streak counts and responds with an array of habit data
-  router.get('/users/habits', userController.update, userController.showHabits);
+  router.get('/users/habits', userController.showHabits);
 
   // POST: /public/users/habits
   // adds a new habit entry to the user data

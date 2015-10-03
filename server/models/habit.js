@@ -26,6 +26,21 @@ var HabitSchema = new Schema({
 
   lastCheckin: Date,
 
+  canCheckin: {
+    type: Boolean,
+    default: true
+  },
+
+  checkinCount: {
+    type: Number,
+    default: 0
+  },
+
+  failedCount: {
+    type: Number,
+    default:0
+  },
+
   streak: {
     type: Number,
     default: 0
