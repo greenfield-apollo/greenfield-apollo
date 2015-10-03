@@ -32,7 +32,7 @@ describe('AuthController', function () {
   afterEach(function() {
     $httpBackend.verifyNoOutstandingExpectation();
     $httpBackend.verifyNoOutstandingRequest();
-    $window.localStorage.removeItem('com.habit');
+    $window.localStorage.removeItem('habit_token');
   });
 
   it('should have a signup method', function() {
@@ -47,7 +47,7 @@ describe('AuthController', function () {
     $httpBackend.expectPOST('/authenticate/signup').respond({token: token});
     $scope.signup();
     $httpBackend.flush();
-    expect($window.localStorage.getItem('com.habit')).to.be(token);
+    expect($window.localStorage.getItem('habit_token')).to.be(token);
   });
 
   it('should have a signin method', function() {
@@ -60,6 +60,6 @@ describe('AuthController', function () {
     $httpBackend.expectPOST('/authenticate/signin').respond({token: token});
     $scope.signin();
     $httpBackend.flush();
-    expect($window.localStorage.getItem('com.habit')).to.be(token);
+    expect($window.localStorage.getItem('habit_token')).to.be(token);
   });
 });

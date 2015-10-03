@@ -64,12 +64,10 @@ angular.module('app.services', [])
     };
 
     var isAuth = function () {
-      return !!($window.localStorage.getItem('com.habit') ||
-        $window.localStorage.getItem('satellizer_token'));
+      return !!$window.localStorage.getItem('habit_token')
     };
 
     var signout = function () {
-      $window.localStorage.removeItem('com.habit');
       $auth.logout()
         .then(function() {
           $location.path('/signin');

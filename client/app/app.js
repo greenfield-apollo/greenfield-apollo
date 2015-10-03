@@ -46,6 +46,7 @@ angular.module('app', [
 
     $authProvider.loginUrl = '/signin';
     $authProvider.signupUrl = '/signup';
+    $authProvider.tokenPrefix = 'habit';
 
     $authProvider.google({
       clientId: '416143587162-phs72qq27pfvqua6buqb5lf4okum9krq.apps.googleusercontent.com',
@@ -60,7 +61,7 @@ angular.module('app', [
   function ($window) {
     var attach = {
       request: function (object) {
-        var jwt = $window.localStorage.getItem('com.habit');
+        var jwt = $window.localStorage.getItem('habit_token');
         if (jwt) {
           object.headers.Authorization = 'Bearer ' + jwt;
         }
