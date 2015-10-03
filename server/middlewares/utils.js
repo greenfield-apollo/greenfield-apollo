@@ -40,5 +40,9 @@ module.exports = {
 
   checkedInYesterday: function(habit) {
     return moment(habit.lastCheckin).isSame(moment().subtract(1, 'day'), 'day');
+  },
+
+  checkedInToday: function(habit) {
+    return moment(habit.lastCheckin).isSame(moment(), 'day');
   }
 };
