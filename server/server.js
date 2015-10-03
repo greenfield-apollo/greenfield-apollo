@@ -1,15 +1,16 @@
 // modules =================================================
-var http = require('http');
 var express = require('express');
 var app = express();
-var server = http.createServer(app);
 var bodyParser = require('body-parser');
 var errorHandler = require('express-error-handler');
 var morgan = require('morgan');
 var mongoose = require('mongoose');
+var passport = require('passport');
+var JwtStrategy = require('passport-jwt').Strategy;
+var config = require('./config/config');
+var strategies = require('./config/strategies');
 
 // configuration ===========================================
-var config = require('./config/config');
 app.set('port', process.env.PORT || config.port);
 
 var dbURI = process.env.MONGOLAB_URI || config.localdb;
@@ -29,15 +30,16 @@ db.on('disconnected', function() {
   console.log('Mongoose connection disconnected.');
 });
 
+passport.use(new JwtStrategy(strategies.jwtOpts, strategies.jwtAuth));
+
 // middlewares =============================================
 app.use(morgan('dev'));
-app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use(express.static(__dirname + '/../client'));
 
 // routes ==================================================
 require('./middlewares/router')(app, express);
 
-app.use(errorHandler({server: server}));
+app.use(errorHandler({server: app}));
 
 module.exports = app;
