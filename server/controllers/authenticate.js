@@ -42,7 +42,7 @@ module.exports = {
       return;
     } else {
       User.findOne({
-        username: req.body.username
+        username: req.body.username.toLowerCase()
       }, function(err, user) {
         if (err) return next(err);
 

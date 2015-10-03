@@ -26,7 +26,7 @@ if (mongoose.connection.readyState === 0) {
 }
 
 var agent = request.agent(app);
-var token, habit0, habit2;
+var token, habit0, habit1;
 
 describe('Server Tests:', function() {
   this.timeout(5000);
@@ -136,10 +136,10 @@ describe('Server Tests:', function() {
               dueTime: moment()
             })
             .set('Authorization', 'Bearer ' + token)
-            .expect(200, cb);
+            .expect(200, cb1);
         };
 
-        var cb = function() {
+        var cb1 = function() {
           agent.post('/api/users/habits')
             .send({
               habitName: 'New habit 2',
@@ -147,40 +147,27 @@ describe('Server Tests:', function() {
               dueTime: moment()
             })
             .set('Authorization', 'Bearer ' + token)
-            .expect(200, done);
+            .expect(200, cb2);
         };
 
-        begin();
-      });
-
-      it('should reset habit streak correctly', function(done) {
-        var begin = function() {
+        var cb2 = function() {
           User.findOne({username: 'testuser'}, function(err, user) {
             if (err) console.log(err);
 
             expect(user.habits.length).to.equal(2);
-            user.habits[0].lastCheckin = moment().subtract(25, 'hours');
+            user.habits[0].lastCheckin = moment().subtract(24, 'hours');
             user.habits[0].streak = 3;
             habit0 = user.habits[0].id;
-            user.habits[1].lastCheckin = moment().subtract(49, 'hours');
+            user.habits[1].lastCheckin = moment().subtract(48, 'hours');
             user.habits[1].streak = 5;
+            habit1 = user.habits[1].id;
 
             user.save(function(err) {
               if (err) console.log(err);
 
-              cb();
+              done();
             });
           });
-        };
-
-        var cb = function() {
-          agent.get('/api/users/habits')
-            .set('Authorization', 'Bearer ' + token)
-            .expect(function(res) {
-              expect(res.body.habits[0].streak).to.equal(3);
-              expect(res.body.habits[1].streak).to.equal(0);
-            })
-            .end(done);
         };
 
         begin();
@@ -192,10 +179,16 @@ describe('Server Tests:', function() {
         var begin = function() {
           agent.post('/api/records/' + habit0)
             .set('Authorization', 'Bearer ' + token)
-            .expect(200, {message: 'Checked in successfully.'}, cb);
+            .expect(200, {message: 'Checked in successfully.'}, cb1);
         };
 
-        var cb = function() {
+        var cb1 = function() {
+          agent.post('/api/records/' + habit1)
+            .set('Authorization', 'Bearer ' + token)
+            .expect(200, cb2);
+        };
+
+        var cb2 = function() {
           agent.get('/api/records/' + habit0)
             .set('Authorization', 'Bearer ' + token)
             .expect(200)
@@ -206,6 +199,17 @@ describe('Server Tests:', function() {
         };
 
         begin();
+      });
+
+      it ('should update streak correctly', function(done) {
+        agent.get('/api/users/habits')
+          .set('Authorization', 'Bearer ' + token)
+          .expect(function(res) {
+            expect(res.body.habits[0].streak).to.equal(4);
+            expect(res.body.habits[0].streakRecord).to.equal(4);
+            expect(res.body.habits[1].streak).to.equal(1);
+          })
+          .end(done);
       });
 
       it ('should fail if habit does not belong to user', function(done) {
@@ -224,54 +228,6 @@ describe('Server Tests:', function() {
             status: 403,
             message: 'Already completed this habit today.'
           }, done);
-      });
-
-      it ('should update streak correctly', function(done) {
-        var begin = function() {
-          agent.post('/api/users/habits')
-            .send({
-              habitName: 'New habit 2',
-              reminderTime: moment(),
-              dueTime: moment()
-            })
-            .set('Authorization', 'Bearer ' + token)
-            .end(cb1);
-        };
-
-        var cb1 = function() {
-          User.findOne({username: 'testuser'}, function(err, user) {
-            if (err) console.log(err);
-
-            user.habits[2].lastCheckin = moment().subtract(49, 'hours');
-            user.habits[2].streak = 5;
-            habit2 = user.habits[2].id;
-
-            user.save(function(err) {
-              if (err) console.log(err);
-
-              cb2();
-            });
-          });
-        };
-
-        var cb2 = function() {
-          agent.post('/api/records/' + habit2)
-            .set('Authorization', 'Bearer ' + token)
-            .end(cb3);
-        };
-
-        var cb3 = function() {
-          agent.get('/api/users/habits')
-            .set('Authorization', 'Bearer ' + token)
-            .expect(function(res) {
-              expect(res.body.habits[0].streak).to.equal(4);
-              expect(res.body.habits[0].streakRecord).to.equal(4);
-              expect(res.body.habits[2].streak).to.equal(1);
-            })
-            .end(done);
-        };
-
-        begin();
       });
     });
   });

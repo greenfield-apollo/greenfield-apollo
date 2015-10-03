@@ -38,21 +38,7 @@ module.exports = {
     return true;
   },
 
-  // checking in after due time today is considered the next day
-  currentCheckinDate: function(habit) {
-    if (moment().hour(habit.dueTime.getHours())
-      .minute(habit.dueTime.getMinutes())
-      .isBefore(moment(), 'minute')) {
-      return moment().add(1, 'days');
-    } else {
-      return moment();
-    }
-  },
-
-  // check if last check-in day is within X days of the current check-in day
-  recentlyCheckedIn: function(habit, days) {
-    var cutOff = this.currentCheckinDate(habit).subtract(days, 'days');
-
-    return moment(habit.lastCheckin).isAfter(cutOff);
+  checkedInYesterday: function(habit) {
+    return moment(habit.lastCheckin).isSame(moment().subtract(1, 'day'), 'day');
   }
 };
