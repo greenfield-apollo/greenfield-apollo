@@ -18,7 +18,6 @@ angular.module('app.services', [])
 
     service.addHabit = function(habit) {
       habit.habitName = $sanitize(habit.habitName);
-      console.log('Habit is ', habit);
       return $http({
         method: 'POST',
         url: '/api/users/habits',
@@ -40,6 +39,14 @@ angular.module('app.services', [])
       return $http({
         method: 'PUT',
         url: '/api/users/habits/' + habit._id,
+        data: habit
+      });
+    };
+
+    service.checkinHabit = function(habit) {
+      return $http({
+        method: 'POST',
+        url: '/api/records/' + habit._id,
         data: habit
       });
     };
