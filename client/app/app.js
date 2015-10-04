@@ -85,15 +85,14 @@ angular.module('app', [
     var timer;
     var eventScheduler = function() {
       Habits.getHabits()
-      .then(function (habits) {
-        events = Events.getEventQueue(habits);
-        console.log('events changed:', events);
-        timer = $interval(function() {
-          if (events.length) {
-            Events.triggerEvents(events);
-          }
-        }, 1000);
-      });
+        .then(function (habits) {
+          events = Events.getEventQueue(habits);
+          timer = $interval(function() {
+            if (events.length) {
+              Events.triggerEvents(events);
+            }
+          }, 1000);
+        });
     };
     eventScheduler();
     $rootScope.$on('habitChange', eventScheduler);

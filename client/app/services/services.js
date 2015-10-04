@@ -136,19 +136,13 @@ angular.module('app.services', [])
       ];
       return Object.keys(eventMessages)
         .reduce(function (events, event) {
-          console.log('habits:', habits);
-          console.log('reduceevent:', event);
           return habits
             // Filter out non-pending habits
             .filter(function (habit, i, eventsTest) {
-              console.log('filterevents:', eventsTest);
-              console.log('habit:', habit);
               return habit.status === 'pending';
             })
             // Convert pending habits to event objects
             .map(function (habit, i, events) {
-              console.log('mapevents:', events);
-              console.log('habit:', habit);
               return {
                 id: habit._id,
                 habit: habit,
@@ -163,7 +157,6 @@ angular.module('app.services', [])
         }, [])
         // Sort events chronologically by eventTime
         .sort(function (eventA, eventB) {
-          console.log('eventA:', eventA);
           return eventA.eventTime - eventB.eventTime;
         });
     };
@@ -171,10 +164,7 @@ angular.module('app.services', [])
     // Trigger notifications for all events past their eventTime
     // and remove triggered events from event queue
     var triggerEvents = function (events) {
-      console.log('triggerStart');
-      console.log('events:', events);
-      if (events.length && Date.now() >= events[0].eventTime) {
-        console.log('TRIGGERED')
+      if (Date.now() >= events[0].eventTime) {
         var event = events.shift()
         Habits.statusChange(event)
           .then(function () {
