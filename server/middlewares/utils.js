@@ -44,5 +44,10 @@ module.exports = {
 
   checkedInToday: function(habit) {
     return moment(habit.lastCheckin).isSame(moment(), 'day');
+  },
+
+  pastDueTime: function(habit) {
+    return moment().hour() >= moment(habit.dueTime).hour()
+      && moment().minute() >= moment(habit.dueTime).minute();
   }
 };

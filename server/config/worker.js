@@ -24,21 +24,26 @@ db.on('disconnected', function() {
 });
 
 // daily refresh ===========================================
-var cbComplete = 0;
+var cbInQueue = 0;
+var collectionsQueued = 0;
 
 var update = function(err, users) {
   if (err) throw err;
 
   users.forEach(function(user) {
-    user.habits.forEach(function(habit) {
-      // in case user checks in between midnight and when the database
-      // actually updates
-      if (!utils.checkedInToday(habit)) {
-        habit.canCheckin = true;
+    cbInQueue++;
 
-        if (!utils.checkedInYesterday(habit)) {
-          habit.streak = 0;
-          habit.failedCount++;
+    user.habits.forEach(function(habit) {
+      if (habit.active) {
+        // in case user checks in between midnight and when the database
+        // actually updates
+        if (!utils.checkedInToday(habit)) {
+          habit.canCheckin = true;
+
+          if (!utils.checkedInYesterday(habit)) {
+            habit.streak = 0;
+            habit.failedCount++;
+          }
         }
       }
     });
@@ -46,15 +51,17 @@ var update = function(err, users) {
     user.save(function(err) {
       if (err) throw err;
 
-      cbComplete++;
+      cbInQueue--;
 
-      if (cbComplete === 2) {
+      if (cbInQueue === 0 && collectionsQueued === 2) {
         // disconnect if the other collection is also done updating
         // this would be a good place to refactor with promises
         mongoose.disconnect();
       }
     });
   });
+
+  collectionsQueued++;
 };
 
 User.find({}, update);
