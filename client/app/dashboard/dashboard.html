@@ -5,7 +5,10 @@
     <table class="table table-striped table-bordered table-hover">
       <tr>
         <th>
-          Daily Habit
+          Daily Checkin
+        </th>
+        <th>
+          Habit
         </th>
         <th>
           Reminder
@@ -25,6 +28,10 @@
       </tr>
       <tr class="habit" ng-repeat="habit in habits | filter:{active:true}">
         <td>
+          <button ng-if="habit.canCheckin" type="button" class="btn btn-success" ng-click="checkinHabit(habit)">Did-it!</button>
+          <button ng-if="!habit.canCheckin" type="button" class="btn btn-info disabled">Done-today</button>
+        </td>
+        <td>
           {{ habit.habitName }}
         </td>
         <td>
@@ -41,7 +48,7 @@
         </td>
         <td>
           <!-- ng-if for testing only (temporary) -->
-          <button ng-if="!sample" type="button" class="btn btn-success" ng-click="editHabit(habit)">Edit</button>
+          <button ng-if="!sample" type="button" class="btn btn-primary" ng-click="editHabit(habit)">Edit</button>
         </td>
       </tr>
     </table>
