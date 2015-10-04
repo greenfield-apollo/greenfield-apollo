@@ -6,6 +6,7 @@ angular.module('app', [
   'app.dashboard',
   'app.auth',
   'ngRoute',
+  'ngSanitize',
   'gridshore.c3js.chart',
   'satellizer'
 ])
