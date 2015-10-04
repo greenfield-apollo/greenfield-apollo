@@ -24,6 +24,10 @@ var HabitSchema = new Schema({
     default: true
   },
 
+  status: {
+    type: String
+  },
+
   lastCheckin: Date,
 
   canCheckin: {

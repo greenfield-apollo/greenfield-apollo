@@ -133,7 +133,7 @@ describe('Server Tests:', function() {
             .send({
               habitName: 'New habit 1',
               reminderTime: moment(),
-              dueTime: moment()
+              dueTime: moment().endOf('day')
             })
             .set('Authorization', 'Bearer ' + token)
             .expect(200, cb1);
@@ -144,7 +144,7 @@ describe('Server Tests:', function() {
             .send({
               habitName: 'New habit 2',
               reminderTime: moment(),
-              dueTime: moment()
+              dueTime: moment().endOf('day')
             })
             .set('Authorization', 'Bearer ' + token)
             .expect(200, cb2);
