@@ -15,12 +15,14 @@ module.exports = {
       // actually update the database (that would be done at midnight)
       if (!habit.active) {
         habit.status = 'inactive';
-      } else if (!utils.checkedInToday(habit) && utils.pastDueTime(habit)) {
+      } else if (utils.checkedInToday(habit)) {
+        habit.status = 'completed';
+      } else if (utils.pastDueTime(habit)) {
         habit.streak = 0;
         habit.failedCount++;
         habit.status = 'failed';
       } else {
-        habit.status = 'completed';
+        habit.status = 'pending';
       }
     });
 
