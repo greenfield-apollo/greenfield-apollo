@@ -21,7 +21,8 @@
     "c3": "~0.4.10",
     "c3-angular": "~0.7.1",
     "d3": "~3.5.6",
-    "satellizer": "~0.12.5"
+    "satellizer": "~0.12.5",
+    "angular-notify": "~2.5.0"
   },
   "resolutions": {
     "d3": "~3.5.6",

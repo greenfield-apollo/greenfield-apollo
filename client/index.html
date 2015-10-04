@@ -5,6 +5,7 @@
     <title>Habit Trainer</title>
     <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="lib/c3/c3.min.css">
+    <link rel="stylesheet" href="lib/angular-notify/angular-notify.css">
     <link rel="stylesheet" type="text/css" href="dist/style.min.css">
   </head>
   <body ng-app="app">
@@ -31,6 +32,8 @@
       </div>
     </nav>
 
+<!--     <div ng-show="$messageTemplate" class="cg-notify-message-template"> -->
+
 <!-- the ng-view directive is where our templates will be loaded into when navigated to -->
     <div ng-view></div>
 
@@ -41,7 +44,7 @@
     <script src="lib/angular-sanitize/angular-sanitize.min.js"></script>
     <script src="lib/c3-angular/c3-angular.min.js"></script>
     <script src="lib/satellizer/satellizer.min.js"></script>
-
+    <script src="lib/angular-notify/angular-notify.js"></script>
     <script src="dist/habit-trainer.min.js"></script>
 
   </body>

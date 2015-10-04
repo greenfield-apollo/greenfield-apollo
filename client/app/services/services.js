@@ -1,7 +1,7 @@
 angular.module('app.services', [])
 
-.factory('Habits', ['$http', '$sanitize',
-  function($http, $sanitize) {
+.factory('Habits', ['$http', '$sanitize', '$interpolate', 'notify',
+  function($http, $sanitize, $interpolate, notify) {
 
     var _habit = {};
     var service = {};
@@ -41,6 +41,24 @@ angular.module('app.services', [])
         method: 'PUT',
         url: '/api/users/habits/' + habit._id,
         data: habit
+      });
+    };
+
+    service.statusChange = function(event) {
+      var exp = $interpolate(event.message)
+      var message = exp({habitName: event.habitName, eventTime: event.eventTime});
+      notify(message);
+      status = event.eventName;
+      if (status === 'dueTime') {
+        status = 'failed';
+      }
+      if (status === 'reminderTime') {
+        status = 'pending'
+      }
+      return $http({
+        method: 'PUT',
+        url: '/api/users/habits/' + status + '/' + event.id, // adjust to db changes
+        data: event.habit
       });
     };
 
@@ -85,6 +103,82 @@ angular.module('app.services', [])
       signup: signup,
       isAuth: isAuth,
       signout: signout
+    };
+  }
+])
+
+.factory('Events', ['Habits',
+  function (Habits) {
+    var event = {
+      habitName: "test",
+      eventTime: "test2"
+    };
+    // Notification messages
+    var eventMessages = {
+      reminderTime: 'Reminder: {{habitName}} is due at {{eventTime | date: "shortTime"}}!',
+      dueTime: 'Habit failed!  You did not complete {{habitName}} by the due time of {{eventTime | date: "shortTime"}}!',
+    };
+
+    // Returns ordered list of scheduled events
+    var getEventQueue = function (habits) {
+      // Temp code for testing/demo purposes
+      habits = [
+        {habitName: 'Submit a Pull Request', id: 123, streak: 5, completed: 25, failed: 3, reminderTime: (Date.now() + 1000), dueTime: (Date.now() + 5000), streakRecord: 15, active:true, status: 'pending'},
+        {habitName: 'Complete a Pomodoro', id: 124, streak: 10, completed: 20, failed: 4, reminderTime: (Date.now() + 10000), dueTime: (Date.now() + 15000), streakRecord: 20, active:true, status: 'pending'},
+        {habitName: 'Workout', id: 125, streak: 8, completed: 15, failed: 2, reminderTime: (Date.now() + 20000), dueTime: (Date.now() + 25000), streakRecord: 8, active:true, status: 'pending'}
+      ];
+      return Object.keys(eventMessages)
+        .reduce(function (events, event) {
+          console.log('habits:', habits);
+          console.log('reduceevent:', event);
+          return habits
+            // Filter out non-pending habits
+            .filter(function (habit, i, eventsTest) {
+              console.log('filterevents:', eventsTest);
+              console.log('habit:', habit);
+              return habit.status === 'pending';
+            })
+            // Convert pending habits to event objects
+            .map(function (habit, i, events) {
+              console.log('mapevents:', events);
+              console.log('habit:', habit);
+              return {
+                id: habit._id,
+                habit: habit,
+                habitName: habit.habitName,
+                eventName: event,
+                eventTime: habit[event],
+                message: eventMessages[event],
+                action: Habits.statusChange
+              };
+            })
+            .concat(events);
+        }, [])
+        // Sort events chronologically by eventTime
+        .sort(function (eventA, eventB) {
+          console.log('eventA:', eventA);
+          return eventA.eventTime - eventB.eventTime;
+        });
+    };
+
+    // Trigger notifications for all events past their eventTime
+    // and remove triggered events from event queue
+    var triggerEvents = function (events) {
+      console.log('triggerStart');
+      console.log('events:', events);
+      if (events.length && Date.now() >= events[0].eventTime) {
+        console.log('TRIGGERED')
+        var event = events.shift()
+        Habits.statusChange(event)
+          .then(function () {
+            triggerEvents(events);
+          });
+      }
+    };
+
+    return {
+      getEventQueue: getEventQueue,
+      triggerEvents: triggerEvents
     };
   }
 ]);
