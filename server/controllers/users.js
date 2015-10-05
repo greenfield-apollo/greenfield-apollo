@@ -10,18 +10,35 @@ module.exports = {
       habits: req.user.habits,
     };
 
+    // temporarily modifies the data for frontend to display, does not
+    // actually update the database (that would be done at midnight)
     summary.habits.forEach(function(habit) {
-      // temporarily modifies the data for frontend to display, does not
-      // actually update the database (that would be done at midnight)
       if (!habit.active) {
         habit.status = 'inactive';
       } else if (utils.checkedInToday(habit)) {
+        // a habit created after its due time will also show as completed
         habit.status = 'completed';
       } else if (utils.pastDueTime(habit)) {
         habit.streak = 0;
         habit.failedCount++;
-        habit.status = 'failed';
+
+        if (habit.failed) {
+          habit.status = 'failed';
+        } else {
+          // frontend should trigger a fail notification
+          habit.status = 'missed';
+        }
+      } else if (utils.pastReminderTime(habit)) {
+        if (habit.reminded) {
+          // frontend should queue a fail notification
+          habit.status = 'reminded';
+        } else {
+          // frontend should trigger a reminder notification, and queue a
+          // fail notification
+          habit.status = 'remind';
+        }
       } else {
+        // frontend should queue both a reminder and a fail notification
         habit.status = 'pending';
       }
     });
@@ -42,8 +59,8 @@ module.exports = {
       return;
     } else {
       if (utils.pastDueTime(habit)) {
-        // to prevent marking today as "failed" at midnight if habit is created
-        // after due time
+        // to prevent marking today as "failed" at midnight if habit is
+        // created after due time
         habit.lastCheckin = moment().startOf('day');
       }
 
@@ -86,7 +103,6 @@ module.exports = {
     } else {
       if (req.body.active === false) {
         habit.active = false;
-        habit.canCheckin = false;
         req.user.habitCount--;
         edited = true;
 
@@ -98,11 +114,14 @@ module.exports = {
       } else {
         if (req.body.reminderTime) {
           habit.reminderTime = req.body.reminderTime;
+          habit.reminded = false;
           edited = true;
         }
 
         if (req.body.dueTime) {
           habit.dueTime = req.body.dueTime;
+          // this may cause the habit to fail for the day!
+          habit.failed = false;
           edited = true;
         }
       }
@@ -125,7 +144,7 @@ module.exports = {
     if (!habit.active) {
       return next(utils.err('This habit has been deactivated.'));
     }
-    else if (!habit.canCheckin) {
+    else if (utils.checkedInToday(habit)) {
       return next(utils.err('Already completed this habit today.'));
     } else if (utils.pastDueTime(habit)) {
       return next(utils.err('It is already past due time today.'));
@@ -138,7 +157,6 @@ module.exports = {
 
       req.mw_params.checkin = habit.lastCheckin = Date.now();
       habit.checkinCount++;
-      habit.canCheckin = false;
       habit.streakRecord = Math.max(habit.streakRecord, habit.streak);
 
       req.user.save(function(err) {
