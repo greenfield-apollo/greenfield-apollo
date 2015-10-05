@@ -12,12 +12,12 @@ module.exports = function (router) {
 
   // POST: /api/users/habits/reminded/<habit id>
   // tells the server that the reminder notification has been shown
-  router.post('/habits/reminded/:id', userController.verifyHabit,
+  router.put('/habits/reminded/:id', userController.verifyHabit,
     userController.habitReminded);
 
   // POST: /api/users/habits/failed/<habit id>
   // tells the server that the fail notification has been shown
-  router.post('/habits/failed/:id', userController.verifyHabit,
+  router.put('/habits/failed/:id', userController.verifyHabit,
     userController.habitFailed);
 
   // PUT: /api/users/habits/<habit id>
