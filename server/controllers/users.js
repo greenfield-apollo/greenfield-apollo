@@ -165,5 +165,29 @@ module.exports = {
         next();
       });
     }
+  },
+
+  habitReminded: function(req, res, next) {
+    var habit = req.mw_params.dbHabit;
+
+    habit.reminded = true;
+
+    req.user.save(function(err) {
+      if (err) return next(err);
+
+      next();
+    });
+  },
+
+  habitFailed: function(req, res, next) {
+    var habit = req.mw_params.dbHabit;
+
+    habit.failed = true;
+
+    req.user.save(function(err) {
+      if (err) return next(err);
+
+      next();
+    });
   }
 };

@@ -10,6 +10,16 @@ module.exports = function (router) {
   // adds a new habit entry to the user data
   router.post('/habits', userController.addHabit);
 
+  // POST: /api/users/habits/reminded/<habit id>
+  // tells the server that the reminder notification has been shown
+  router.post('/habits/reminded/:id', userController.verifyHabit,
+    userController.habitReminded);
+
+  // POST: /api/users/habits/failed/<habit id>
+  // tells the server that the fail notification has been shown
+  router.post('/habits/failed/:id', userController.verifyHabit,
+    userController.habitFailed);
+
   // PUT: /api/users/habits/<habit id>
   // deactivates habit or edit reminder time / due time
   router.put('/habits/:id', userController.verifyHabit,
