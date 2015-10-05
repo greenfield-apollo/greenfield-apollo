@@ -43,21 +43,14 @@ angular.module('app.services', [])
       });
     };
 
-    service.statusChange = function(event) {
-      var exp = $interpolate(event.message)
-      var message = exp({habitName: event.habitName, eventTime: event.eventTime});
+    service.statusChange = function(habitEvent) {
+      var exp = $interpolate(habitEvent.message)
+      var message = exp({habitName: habitEvent.habit.habitName, eventTime: habitEvent.eventTime});
       notify(message);
-      status = event.eventName;
-      if (status === 'dueTime') {
-        status = 'failed';
-      }
-      if (status === 'reminderTime') {
-        status = 'pending'
-      }
       return $http({
         method: 'PUT',
-        url: '/api/users/habits/' + status + '/' + event.id, // adjust to db changes
-        data: event.habit
+        url: '/api/users/habits/' + habitEvent.eventName + '/' + habitEvent.habit._id,
+        data: habitEvent.habit
       });
     };
 
@@ -116,47 +109,49 @@ angular.module('app.services', [])
 
 .factory('Events', ['Habits',
   function (Habits) {
-    var event = {
-      habitName: "test",
-      eventTime: "test2"
-    };
+
     // Notification messages
     var eventMessages = {
-      reminderTime: 'Reminder: {{habitName}} is due at {{eventTime | date: "shortTime"}}!',
-      dueTime: 'Habit failed!  You did not complete {{habitName}} by the due time of {{eventTime | date: "shortTime"}}!',
+      reminded: 'Reminder: {{habitName}} is due at {{eventTime | date: "shortTime"}}!',
+      failed: 'Habit failed!  You did not complete {{habitName}} by the due time of {{eventTime | date: "shortTime"}}!',
     };
 
-    // Returns ordered list of scheduled events
+    // event constructor
+    var Event = function(habit, eventName, eventTime) {
+      this.habit = habit;
+      this.eventName = eventName;
+      this.eventTime = eventTime;
+      this.message = eventMessages[eventName];
+    }
+
     var getEventQueue = function (habits) {
-      // Temp code for testing/demo purposes
-      habits = [
-        {habitName: 'Submit a Pull Request', id: 123, streak: 5, completed: 25, failed: 3, reminderTime: (Date.now() + 1000), dueTime: (Date.now() + 5000), streakRecord: 15, active:true, status: 'pending'},
-        {habitName: 'Complete a Pomodoro', id: 124, streak: 10, completed: 20, failed: 4, reminderTime: (Date.now() + 10000), dueTime: (Date.now() + 15000), streakRecord: 20, active:true, status: 'pending'},
-        {habitName: 'Workout', id: 125, streak: 8, completed: 15, failed: 2, reminderTime: (Date.now() + 20000), dueTime: (Date.now() + 25000), streakRecord: 8, active:true, status: 'pending'}
-      ];
-      return Object.keys(eventMessages)
-        .reduce(function (events, event) {
-          return habits
-            // Filter out non-pending habits
-            .filter(function (habit, i, eventsTest) {
-              return habit.status === 'pending';
-            })
-            // Convert pending habits to event objects
-            .map(function (habit, i, events) {
-              return {
-                id: habit._id,
-                habit: habit,
-                habitName: habit.habitName,
-                eventName: event,
-                eventTime: habit[event],
-                message: eventMessages[event],
-                action: Habits.statusChange
-              };
-            })
-            .concat(events);
+      return habits
+        // filter out past-due events and send out notifications
+        // for any of which have not been yet notified
+        .reduce(function(queue, habit) {
+          var failEvent = new Event(habit, 'failed',  habit.dueTime);
+          var remindEvent = new Event(habit, 'reminded', habit.reminderTime);
+          // if habit dueTime missed
+          if (habit.status === 'missed') {
+            // display failed notification
+            Habits.statusChange(failEvent);
+            // keep the current queue
+            return queue;
+          } else if (habit.status === 'remind') {
+            // display reminded notification
+            Habits.statusChange(remindEvent);
+            // add fail event to the queue
+            return queue.concat(remindEvent);
+          } else if (habit.status === 'pending') {
+            // add remind event and fail event to the queue
+            return queue.concat(remindEvent, failEvent);
+          }
+          return queue;
         }, [])
+
         // Sort events chronologically by eventTime
         .sort(function (eventA, eventB) {
+
           return eventA.eventTime - eventB.eventTime;
         });
     };
@@ -164,7 +159,12 @@ angular.module('app.services', [])
     // Trigger notifications for all events past their eventTime
     // and remove triggered events from event queue
     var triggerEvents = function (events) {
-      if (Date.now() >= events[0].eventTime) {
+      if (!events.length) return;
+      var date = new Date();
+      var timeNow = (date.getHours() * 60) + date.getMinutes();
+      var eventDate = new Date(events[0].eventTime);
+      var eventTime = (eventDate.getHours() * 60) + eventDate.getMinutes();
+      if (timeNow >= eventTime) {
         var event = events.shift()
         Habits.statusChange(event)
           .then(function () {
