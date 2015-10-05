@@ -31,8 +31,6 @@
           <button ng-if="buttonState(habit, 'pending')" type="button" class="btn btn-success" ng-click="checkinHabit(habit)">Did-it!</button>
           <button ng-if="buttonState(habit, 'completed')" type="button" class="btn btn-info disabled">Completed</button>
           <button ng-if="buttonState(habit, 'failed')" type="button" class="btn btn-danger disabled">Failed</button>
-          <!-- <button ng-click="Habits.statusChange(new Event(habit, 'failed', habit.dueTime))" type="button" class="btn btn-danger">Fail Habit</button> -->
-          {{habit}}
         </td>
         <td>
           {{ habit.habitName }}
