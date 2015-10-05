@@ -1,7 +1,7 @@
 angular.module('app.dashboard', [])
 
-.controller('DashboardController', ['$rootScope', '$scope', '$location', 'Habits',
-  function($rootScope, $scope, $location, Habits) {
+.controller('DashboardController', ['$rootScope', '$scope', '$location', 'Habits', 'Events',
+  function($rootScope, $scope, $location, Habits, Events) {
     $rootScope.showNav = true;
 
     $scope.testHabits = [
@@ -12,26 +12,45 @@ angular.module('app.dashboard', [])
 
     $scope.colors = ["#1f77b4", "#ff7f0e", "#2ca02c"];
 
+    $scope.buttonState = function (habit, state) {
+      if (state === 'pending') {
+        return habit.status === 'pending'
+          || habit.status === 'remind'
+          || habit.status === 'reminded'
+      }
+      if (state === 'completed') {
+        return habit.status === 'completed';
+      }
+      if (state === 'failed') {
+        return habit.status === 'failed' ||
+          habit.status === 'missed';
+      }
+    }
 
     $scope.getHabits = function () {
       Habits.getHabits()
         .then(function(habits) {
           // original
           // $scope.habits = habits
-
           // code for testing
           $scope.habits = $rootScope.sample ? $scope.testHabits : habits;
+
+          // change var name if you want to use deactivated habits on the frontend
+          $scope.habits = $scope.habits.filter(function(habit) {
+            return habit.active;
+          });
           // Stuff for Habit Streaks chart
           $scope.habitStreaks = $scope.habits.filter(function (habit) {
             return habit.streak > 0;
           });
           // Stuff for Habit Score chart
           $scope.totalFailed = $scope.habits.reduce(function (res, habit) {
-            return res + habit.failed;
+            console.log('failedCount:', habit.failedCount);
+            return res + habit.failedCount;
           }, 0);
           $scope.totalCompleted = 0;
           $scope.habitsCompleted = $scope.habits.map(function (habit) {
-            $scope.totalCompleted += habit.completed;
+            $scope.totalCompleted += habit.checkinCount;
             return habit.completed;
           });
           $scope.score = Math.round($scope.totalCompleted / ($scope.totalCompleted + $scope.totalFailed) * 100);

@@ -84,6 +84,7 @@ angular.module('app', [
     });
     var timer;
     var eventScheduler = function() {
+      console.log('eventScheduler start');
       Habits.getHabits()
         .then(function (habits) {
           events = Events.getEventQueue(habits);
