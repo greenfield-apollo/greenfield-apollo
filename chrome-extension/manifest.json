@@ -5,9 +5,17 @@
   "description": "This extension helps you track your habits and improve yourself",
   "version": "0",
 
+  "background": {
+    "scripts": ["backgroundPage.js"],
+    "persistent": true
+  },
+
   "browser_action": {
     "default_icon": "LetterH.png",
-    "default_popup": "popup.html",
     "default_title": "Habit Trainer"
-  }
+  },
+  "permissions": [
+    "alarms",
+    "http://localhost:8080/",
+    "notifications"]
 }
