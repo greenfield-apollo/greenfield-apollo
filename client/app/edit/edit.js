@@ -9,6 +9,7 @@ angular.module('app.edit', [])
     $scope.updateHabit = function() {
       Habits.updateHabit($scope.habit)
         .then(function() {
+          $rootScope.$broadcast('habitChange');
           $location.path('/dashboard');
         })
         .catch(function(err) {
@@ -20,6 +21,7 @@ angular.module('app.edit', [])
       $scope.habit.active = false;
       Habits.updateHabit($scope.habit)
         .then(function() {
+          $rootScope.$broadcast('habitChange');
           $location.path('/dashboard');
         })
         .catch(function(err) {

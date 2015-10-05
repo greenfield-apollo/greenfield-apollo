@@ -25,6 +25,7 @@ angular.module('app.create', [])
     $scope.addHabit = function() {
       Habits.addHabit($scope.habit)
         .then(function() {
+          $rootScope.$broadcast('habitChange');
           $location.path('/dashboard');
         })
         .catch(function(err) {

@@ -6,8 +6,10 @@ angular.module('app', [
   'app.dashboard',
   'app.auth',
   'ngRoute',
+  'ngSanitize',
   'gridshore.c3js.chart',
-  'satellizer'
+  'satellizer',
+  'cgNotify'
 ])
 
 .config(['$routeProvider', '$httpProvider', '$authProvider',
@@ -73,12 +75,26 @@ angular.module('app', [
   }
 ])
 
-.run(['$rootScope', '$location', 'Auth',
-  function ($rootScope, $location, Auth) {
+.run(['$rootScope', '$location', '$interval', 'Auth', 'Events', 'Habits',
+  function ($rootScope, $location, $interval, Auth, Events, Habits) {
     $rootScope.$on('$routeChangeStart', function (event, next, current) {
       if (next.$$route && next.$$route.authenticate && !Auth.isAuth()) {
         $location.path('/signin');
       }
     });
+    var timer;
+    var eventScheduler = function() {
+      Habits.getHabits()
+        .then(function (habits) {
+          events = Events.getEventQueue(habits);
+          timer = $interval(function() {
+            if (events.length) {
+              Events.triggerEvents(events);
+            }
+          }, 1000);
+        });
+    };
+    eventScheduler();
+    $rootScope.$on('habitChange', eventScheduler);
   }
 ]);
