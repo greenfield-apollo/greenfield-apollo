@@ -24,16 +24,24 @@ var HabitSchema = new Schema({
     default: true
   },
 
+  // only used for GET /api/users/habits
   status: {
     type: String
   },
 
-  lastCheckin: Date,
-
-  canCheckin: {
+  // set to true when reminder notification is shown on the frontend
+  reminded: {
     type: Boolean,
-    default: true
+    default: false
   },
+
+  // set to true when fail notification is shown on the frontend
+  failed: {
+    type: Boolean,
+    default: false
+  },
+
+  lastCheckin: Date,
 
   checkinCount: {
     type: Number,

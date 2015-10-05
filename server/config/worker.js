@@ -35,16 +35,16 @@ var update = function(err, users) {
 
     user.habits.forEach(function(habit) {
       if (habit.active) {
-        // in case user checks in between midnight and when the database
-        // actually updates
-        if (!utils.checkedInToday(habit)) {
-          habit.canCheckin = true;
-
-          if (!utils.checkedInYesterday(habit)) {
-            habit.streak = 0;
-            habit.failedCount++;
-          }
+        // skip updating streak count if user checks in between midnight and
+        // when the database actually updates
+        if (!utils.checkedInToday(habit) && !utils.checkedInYesterday(habit)) {
+          habit.streak = 0;
+          habit.failedCount++;
         }
+
+        // reset notification status for the day
+        habit.reminded = false;
+        habit.failed = false;
       }
     });
 

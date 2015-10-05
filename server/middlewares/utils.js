@@ -39,11 +39,24 @@ module.exports = {
   },
 
   checkedInYesterday: function(habit) {
+    if (!habit.lastCheckin) {
+      return false;
+    } else {
     return moment(habit.lastCheckin).isSame(moment().subtract(1, 'day'), 'day');
+    }
   },
 
   checkedInToday: function(habit) {
-    return moment(habit.lastCheckin).isSame(moment(), 'day');
+    if (!habit.lastCheckin) {
+      return false;
+    } else {
+      return moment(habit.lastCheckin).isSame(moment(), 'day');
+    }
+  },
+
+  pastReminderTime: function(habit) {
+    return moment().hour() >= moment(habit.reminderTime).hour()
+      && moment().minute() >= moment(habit.reminderTime).minute();
   },
 
   pastDueTime: function(habit) {
