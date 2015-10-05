@@ -175,7 +175,7 @@ module.exports = {
     req.user.save(function(err) {
       if (err) return next(err);
 
-      next();
+      res.json({message: 'Habit marked as reminded.'});
     });
   },
 
@@ -187,7 +187,7 @@ module.exports = {
     req.user.save(function(err) {
       if (err) return next(err);
 
-      next();
+      res.json({message: 'Habit marked as failed.'});
     });
   }
 };
