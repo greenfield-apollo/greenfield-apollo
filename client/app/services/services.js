@@ -46,7 +46,7 @@ angular.module('app.services', [])
     service.statusChange = function(habitEvent) {
       var exp = $interpolate(habitEvent.message)
       var message = exp({habitName: habitEvent.habit.habitName, eventTime: habitEvent.eventTime});
-      notify(message);
+      // notify(message);
       return $http({
         method: 'PUT',
         url: '/api/users/habits/' + habitEvent.eventName + '/' + habitEvent.habit._id,
@@ -55,6 +55,7 @@ angular.module('app.services', [])
     };
 
     service.checkinHabit = function(habit) {
+      notify('Great job completing your habit!');
       return $http({
         method: 'POST',
         url: '/api/records/' + habit._id,
