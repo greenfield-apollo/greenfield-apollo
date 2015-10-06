@@ -14,8 +14,18 @@
   ],
   "dependencies": {
     "angular": "~1.4.6",
+    "angular-mocks": "~1.4.6",
     "angular-route": "~1.4.6",
+    "angular-sanitize": "~1.4.7",
     "bootstrap": "~3.3.5",
-    "angular-mocks": "~1.4.6"
+    "c3": "~0.4.10",
+    "c3-angular": "~0.7.1",
+    "d3": "~3.5.6",
+    "satellizer": "~0.12.5",
+    "angular-notify": "~2.5.0"
+  },
+  "resolutions": {
+    "d3": "~3.5.6",
+    "angular": "~1.4.6"
   }
 }

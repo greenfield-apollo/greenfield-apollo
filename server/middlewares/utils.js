@@ -5,10 +5,13 @@ var moment = require('moment');
 var config = require('../config/config');
 
 module.exports = {
-  // issues jwt token with username as payload
-  issueToken: function(username) {
-    return jwt.sign(username, config.secret, {
-      expiresInMinutes: 60 * 24
+  // issues jwt token with user identifier and user type as payload
+  issueToken: function(identifier, type) {
+    return jwt.sign({
+      user: identifier,
+      type: type
+    }, config.tokenSecret, {
+      expiresIn: 60 * 60 * 24
     });
   },
 
@@ -35,12 +38,29 @@ module.exports = {
     return true;
   },
 
-  // check if last check-in time is within X days of the due time today
-  recentlyCheckedIn: function(habit, days) {
-    var cutOff = moment().hour(habit.dueTime.getHours())
-      .minute(habit.dueTime.getMinutes())
-      .subtract(days, 'days');
+  checkedInYesterday: function(habit) {
+    if (!habit.lastCheckin) {
+      return false;
+    } else {
+    return moment(habit.lastCheckin).isSame(moment().subtract(1, 'day'), 'day');
+    }
+  },
 
-    return moment(habit.lastCheckin).isAfter(cutOff);
+  checkedInToday: function(habit) {
+    if (!habit.lastCheckin) {
+      return false;
+    } else {
+      return moment(habit.lastCheckin).isSame(moment(), 'day');
+    }
+  },
+
+  pastReminderTime: function(habit) {
+    return moment().hour() >= moment(habit.reminderTime).hour()
+      && moment().minute() >= moment(habit.reminderTime).minute();
+  },
+
+  pastDueTime: function(habit) {
+    return moment().hour() >= moment(habit.dueTime).hour()
+      && moment().minute() >= moment(habit.dueTime).minute();
   }
 };

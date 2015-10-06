@@ -14,3 +14,17 @@
   width: calc(100% - 3em - 2px);
   font-family: sans-serif;
 }
+
+.donut .c3-chart-arcs-title {
+  font-size: 4em;
+}
+
+.donut svg {
+  max-height: 155px;
+}
+
+input[readonly] {
+  cursor: not-allowed;
+  background-color: #EEEEEE;
+  color: #9E9999;
+}
