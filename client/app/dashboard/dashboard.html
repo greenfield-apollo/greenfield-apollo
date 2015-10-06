@@ -1,9 +1,14 @@
 <div class="container">
-  <div class="habits info">
+<!--   <button type="button" class="btn btn-success" ng-click="toggleSampleData()">Toggle Sample Data</button>
+  <br><br>
+ -->  <div class="habits info">
     <table class="table table-striped table-bordered table-hover">
       <tr>
         <th>
-          Daily Habit
+          Daily Checkin
+        </th>
+        <th>
+          Habit
         </th>
         <th>
           Reminder
@@ -17,8 +22,16 @@
         <th>
           Record Streak
         </th>
+        <th>
+          Edit Habit
+        </th>
       </tr>
-      <tr class="habit" ng-repeat="habit in habits">
+      <tr class="habit" ng-repeat="habit in habits | filter:{active:true}">
+        <td>
+          <button ng-if="buttonState(habit, 'pending')" type="button" class="btn btn-success" ng-click="checkinHabit(habit)">Did-it!</button>
+          <button ng-if="buttonState(habit, 'completed')" type="button" class="btn btn-info disabled">Completed</button>
+          <button ng-if="buttonState(habit, 'failed')" type="button" class="btn btn-danger disabled">Failed</button>
+        </td>
         <td>
           {{ habit.habitName }}
         </td>
@@ -34,7 +47,49 @@
         <td>
           {{ habit.streakRecord }}
         </td>
+        <td>
+          <!-- ng-if for testing only (temporary) -->
+          <button ng-if="!sample" type="button" class="btn btn-primary" ng-click="editHabit(habit)">Edit</button>
+        </td>
       </tr>
     </table>
+  </div>
+  <div class="row">
+    <div class="col-md-2">
+      <h2>Habit Score</h2>
+    </div>
+    <div class="col-md-10">
+      <h2>Current Streak</h2>
+    </div>
+  </div>
+  <div class="row" ng-if="habits">
+    <div class="col-md-2 donut-col">
+      <c3chart ng-if="totalCompleted || totalFailed" class="donut" bindto-id="donut-plot1-chart">
+        <div ng-repeat="habit in habits">
+          <chart-column column-id="{{'Completed &quot;' + habit.habitName + '&quot;'}}"
+                      column-values="{{habit.checkinCount}}"
+                      column-type="donut"
+                      column-color="{{colors[$index]}}"/>
+        </div>
+        <chart-column column-id="Failed"
+                    column-values="{{totalFailed}}"
+                    column-type="donut"
+                    column-color="#d62728"/>
+        <chart-legend show-legend="false">
+        <chart-donut title="{{score}}" show-label="false"/>
+        <chart-tooltip value-format-function="formatDonut"/>
+      </c3chart>
+      <h3 ng-if="!totalCompleted">No score data</h3>
+    </div>
+    <div class="col-md-10">
+      <div class="graph" id="current-streak">
+        <div ng-if="habitStreaks.length">
+          <d3-bars data="habitStreaks"></d3-bars>
+        </div>
+        <!-- Placeholder streak data -->
+        <h3 ng-if="!habitStreaks.length">No streak data</h3>
+
+      </div>
+    </div>
   </div>
 </div>
