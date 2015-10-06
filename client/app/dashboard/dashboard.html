@@ -67,7 +67,7 @@
       <c3chart ng-if="totalCompleted || totalFailed" class="donut" bindto-id="donut-plot1-chart">
         <div ng-repeat="habit in habits">
           <chart-column column-id="{{'Completed &quot;' + habit.habitName + '&quot;'}}"
-                      column-values="{{habit.completed}}"
+                      column-values="{{habit.checkinCount}}"
                       column-type="donut"
                       column-color="{{colors[$index]}}"/>
         </div>

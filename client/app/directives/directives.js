@@ -65,7 +65,8 @@ angular.module('app.directives', [])
                   return i * (barHeight + barPadding);
                 })
                 .attr('fill', function(d) {
-                  return color(d.streak);
+                  return color('#1f77b4');
+                  // return color(d.streak);
                 })
                 .transition()
                   .duration(1000)
