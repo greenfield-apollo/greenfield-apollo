@@ -83,9 +83,11 @@ angular.module('app', [
       }
     });
 
+
     console.log('conflict testing');
 
     console.log("something to be taken out later in app.js");
+
 
     var timer;
     var eventScheduler = function() {
