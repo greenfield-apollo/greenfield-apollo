@@ -82,6 +82,7 @@ angular.module('app', [
         $location.path('/signin');
       }
     });
+    console.log('conflict testing');
     var timer;
     var eventScheduler = function() {
       console.log('eventScheduler start');
