@@ -82,7 +82,11 @@ angular.module('app', [
         $location.path('/signin');
       }
     });
+
     console.log('conflict testing');
+
+    console.log("something to be taken out later in app.js");
+
     var timer;
     var eventScheduler = function() {
       console.log('more conflict testing');
