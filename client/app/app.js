@@ -85,6 +85,7 @@ angular.module('app', [
     console.log('conflict testing');
     var timer;
     var eventScheduler = function() {
+      console.log('more conflict testing');
       console.log('eventScheduler start');
       Habits.getHabits()
         .then(function (habits) {
