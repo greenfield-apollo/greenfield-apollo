@@ -91,6 +91,7 @@ angular.module('app', [
     var eventScheduler = function() {
       console.log('more conflict testing');
       console.log('eventScheduler start');
+      console.log('test1000000000');
       Habits.getHabits()
         .then(function (habits) {
           events = Events.getEventQueue(habits);
