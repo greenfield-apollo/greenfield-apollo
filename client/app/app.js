@@ -91,6 +91,7 @@ angular.module('app', [
       console.log('test1000000000');
       console.log('5billion13984798');
       console.log('lets conflict!!!');
+      console.log('something else');
       Habits.getHabits()
         .then(function (habits) {
           events = Events.getEventQueue(habits);
