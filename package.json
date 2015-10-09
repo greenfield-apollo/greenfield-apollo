@@ -22,7 +22,7 @@
   },
   "homepage": "https://github.com/greenfield-apollo/greenfield-apollo#readme",
   "dependencies": {
-    "bcrypt": "^0.8.5",
+    "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.14.0",
     "express": "^4.13.3",
     "express-error-handler": "^1.0.1",
