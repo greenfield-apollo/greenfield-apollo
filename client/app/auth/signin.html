@@ -1,21 +1,23 @@
-<div class="container">
-  <h3>Sign in</h3>
-  <form class="form-group" ng-submit='signin()'>
-    <label>Username</label>
-    <input class="form-control" type="text" ng-model='user.username' placeholder="Username" required>
-    <br>
-    <label>Password</label>
-    <input class="form-control" type="password" ng-model='user.password' placeholder="Password" required>
-    <br>
-    <input class="btn btn-default" type="submit" value="Login">
-    &nbsp;
-    <!-- Satellizer authentication -->
-    <button class="btn btn-default" ng-click="authenticate('google')">Sign in with Google</button>
-    <!-- Temporary alert padding -->
-    &nbsp;&nbsp;
-    <span ng-if="alert" class="alert alert-danger">
-      <strong>Invalid login:</strong> {{alert}}
-    </span>
-  </form>
-  <a href="#/signup">Don't have an account? <strong>Signup</strong> ...</a>
-</div>
+<div class="vertical-center">
+  <div class="container">
+    <h3>Sign in</h3>
+    <form class="form-group" ng-submit='signin()'>
+      <label>Username</label>
+      <input class="form-control" type="text" ng-model='user.username' placeholder="Username" required>
+      <br>
+      <label>Password</label>
+      <input class="form-control" type="password" ng-model='user.password' placeholder="Password" required>
+      <br>
+      <input class="btn btn-primary" type="submit" value="Login">
+      &nbsp;
+      <!-- Satellizer authentication -->
+      <button class="btn btn-info" ng-click="authenticate('google')">Sign in with Google</button>
+      <!-- Temporary alert padding -->
+      &nbsp;&nbsp;
+      <span ng-if="alert" class="alert alert-danger">
+        <strong>Invalid login:</strong> {{alert}}
+      </span>
+    </form>
+    <a href="#/signup">Don't have an account? <strong>Signup</strong> ...</a>
+  </div>
+</div
