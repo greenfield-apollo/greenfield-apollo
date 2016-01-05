@@ -28,3 +28,16 @@ input[readonly] {
   background-color: #EEEEEE;
   color: #9E9999;
 }
+
+.vertical-center {
+  min-height: 100%;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  background-color: #18BC9C;
+  color: #eee; 
+}
+
+.vertical-center a {
+  color: #eee;
+}

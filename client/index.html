@@ -3,16 +3,18 @@
   <head>
     <meta charset="utf-8" />
     <title>Habit Trainer</title>
-    <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://bootswatch.com/flatly/bootstrap.min.css">
     <link rel="stylesheet" href="lib/c3/c3.min.css">
     <link rel="stylesheet" href="lib/angular-notify/angular-notify.css">
     <link rel="stylesheet" type="text/css" href="dist/style.min.css">
   </head>
   <body ng-app="app">
-    <nav ng-if="showNav" class="navbar navbar-default">
-      <div class="container-fluid">
+
+
+    <nav ng-if="showNav" class="navbar navbar-inverse">
+      <div class="container">
         <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+          <button type="button" class="navbar-toggle" ng-init="navbarCollapsed=true" ng-click="navbarCollapsed=!navbarCollapsed">
             <span class="sr-only">Toggle navigation</span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
@@ -20,13 +22,13 @@
           </button>
           <a class="navbar-brand" href="#/dashboard">Habit Trainer</a>
         </div>
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <div class="collapse navbar-collapse" uib-collapse="navbarCollapsed">
           <ul class="nav navbar-nav">
-            <li><a href="#/dashboard">Dashboard</a></li>
-            <li><a href="#/create">Create Habit</a></li>
+            <li><a href="#/dashboard" ng-click="navbarCollapsed=!navbarCollapsed">Dashboard</a></li>
+            <li><a href="#/create" ng-click="navbarCollapsed=!navbarCollapsed">Create Habit</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="#/signout">Logout</a></li>
+            <li><a href="#/signout" ng-click="navbarCollapsed=!navbarCollapsed">Logout</a></li>
           </ul>
         </div>
       </div>
@@ -42,11 +44,11 @@
     <script src="lib/angular/angular.min.js"></script>
     <script src="lib/angular-route/angular-route.js"></script>
     <script src="lib/angular-sanitize/angular-sanitize.min.js"></script>
+    <script src="lib/angular-bootstrap/ui-bootstrap.min.js"></script>
     <script src="lib/c3-angular/c3-angular.min.js"></script>
     <script src="lib/satellizer/satellizer.min.js"></script>
     <script src="lib/angular-notify/angular-notify.js"></script>
     <script src="dist/habit-trainer.min.js"></script>
-
   </body>
 </html>
 
