@@ -31,6 +31,8 @@ module.exports = function(config) {
       'client/lib/d3/d3.min.js',
       'client/lib/c3/c3.min.js',
       'client/lib/angular/angular.min.js',
+      // 'client/lib/angular-ui-router/release/angular-ui-router.min.js',
+      'client/lib/angular-bootstrap/ui-bootstrap.min.js',
       'client/lib/angular-route/angular-route.min.js',
       'client/lib/angular-sanitize/angular-sanitize.min.js',
       'client/lib/angular-mocks/angular-mocks.js',
