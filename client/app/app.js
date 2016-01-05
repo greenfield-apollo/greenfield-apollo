@@ -9,7 +9,8 @@ angular.module('app', [
   'ngSanitize',
   'gridshore.c3js.chart',
   'satellizer',
-  'cgNotify'
+  'cgNotify',
+  'ui.bootstrap'
 ])
 
 .config(['$routeProvider', '$httpProvider', '$authProvider',
