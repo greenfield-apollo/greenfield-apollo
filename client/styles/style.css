@@ -29,15 +29,35 @@ input[readonly] {
   color: #9E9999;
 }
 
+.green-bg {
+  background-color: #18BC9C;
+}
+
 .vertical-center {
   min-height: 100%;
   min-height: 100vh;
   display: flex;
   align-items: center;
-  background-color: #18BC9C;
   color: #eee; 
 }
 
 .vertical-center a {
   color: #eee;
+}
+
+.big-picture {
+  background: 
+    linear-gradient(
+      rgba(0, 0, 0, 0.35), 
+      rgba(0, 0, 0, 0.35)
+    ),
+    url("../assets/mountain.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  color: white;
+  height: 500px;
+}
+
+.jumbotron {
+  margin: 0;
 }
