@@ -43,9 +43,6 @@ angular.module('app', [
         controller: 'EditController',
         authenticate: true
       })
-      .when('/landing', {
-        templateUrl: 'app/landing/landing.html',
-      })
       .otherwise({
         redirectTo: '/dashboard'
       });
@@ -83,7 +80,7 @@ angular.module('app', [
   function ($rootScope, $location, $interval, Auth, Events, Habits) {
     $rootScope.$on('$routeChangeStart', function (event, next, current) {
       if (next.$$route && next.$$route.authenticate && !Auth.isAuth()) {
-        $location.path('/landing');
+        $location.path('/signin');
       }
     });
     var timer;
