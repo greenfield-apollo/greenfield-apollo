@@ -13,7 +13,7 @@ deploy:
   provider: heroku
   api_key:
     secure: nFj7Fuzgq9VAcVYSrpkcnmZz0J4xYMkp4Ug2g681VyBsO/eeS1DcN0TrYZG/raqesjUag9y6+fV9WRiJhhSqHGczYOcLjWiN/qYjwcMrjOLI/m2+bJgbdDnCBYXQyz10LisAPNmSaVdZp8WQxkkPUJYvGff7x4NRFfxj9EeCYI6OIbZ2QPeS8cpJDOA4DIL19hfzgzwkMjEK212c6TRtR/qYyXqsDH9NrZcvk3FBbFFSCcEZ9MgUKfqPFOCdvl51wo1Zm/A3QFkiOZx+tJSI0GqKHq5gGBtQ2v9YpJ7lbeZTjJjJWV/qX8EXiXd8LsCMbN9f9EeN32imMDixW00xBlwupPYBPADL0CeAgXv7jPon9cM0vEzaFXB/W59N8ZwCx4YFCUstwU/6WYSztfNyNRh5X5ErUbduyraF9TyDyLjUhWVHKj8vS7fRF0mIdKGArcGrYMTB8W7xVhq7oT5r7FScUSPl9RoHaErLZiMvB9B4fhkhxVmCmLLtsqha/JbGK7AqgkFhpI9ZYll6H+s9puZYeO8DlDSF98CPke0zloer8IQRxWtqg/eccRcJmQezv4hZE41PmZohxSShdlDJMP05w4kLvhIgzHWuev8kOaQjLNByPeuJYQODh/Vf0duLc+PLVNEC+Fae/PdwcWsmweF1BYkPMgIaj1JRj+9MDpc=
-  app: habit-trainer
+  app: greenfield-apollo
   on:
-    repo: greenfield-apollo/greenfield-apollo
+    repo: habittracker/greenfield-apollo
     branch: staging
